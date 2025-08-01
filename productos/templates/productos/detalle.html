@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html>
+<head><title>Detalle del producto</title></head>
+<body>
+{% load calculadora %}
+<p>Precio total: {{ producto.precio|multiply:cantidad }}</p>
+</body>
+</html>
