@@ -1,3 +1,5 @@
+# django_techstore/urls.py
+
 """
 URL configuration for django_techstore project.
 
@@ -17,7 +19,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# --- ¡NUEVAS IMPORTACIONES AÑADIDAS AQUÍ! ---
+from django.conf import settings
+from django.conf.urls.static import static
+# --------------------------------------------
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('productos/', include('productos.urls')),  # Include URLs from the productos app
 ]
+
+# Configuración para servir archivos multimedia y estáticos en modo DEBUG (desarrollo)
+# ¡IMPORTANTE!: Esto SOLO funciona en modo DEBUG (desarrollo).
+# En producción, un servidor web como Nginx o Apache se encargará de esto.
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Esta línea asegura que el servidor de desarrollo sirva los archivos estáticos.
+    # Es una buena práctica añadirla, aunque Django a menudo lo hace por defecto.
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

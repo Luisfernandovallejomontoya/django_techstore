@@ -59,8 +59,10 @@
     {% for producto in productos %}
       <div class="card">
         {% if producto.imagen %}
-          <img src="{% static 'productos/img/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}" class="producto-img">
+          {# ¡CORRECCIÓN AQUÍ! Usa .url para campos ImageField #}
+          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-img">
         {% else %}
+          {# Si no hay imagen, puedes usar una imagen por defecto de tus archivos estáticos #}
           <img src="{% static 'productos/img/default.jpg' %}" alt="Imagen por defecto" class="producto-img">
         {% endif %}
         <h2 class="card-title">{{ producto.nombre }}</h2>

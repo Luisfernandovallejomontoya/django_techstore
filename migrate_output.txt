@@ -1,0 +1,4 @@
+﻿Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, productos, sessions
+Running migrations:
+  Applying productos.0002_categoria_pedido_usuario_alter_producto_categoria...

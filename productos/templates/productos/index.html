@@ -7,9 +7,13 @@
   <meta name="description" content="TechStore Online - Tu tienda de tecnología en línea." />
   <title>TechStore Online - Página Principal</title>
 
-  <!-- ✅ Bootstrap y Font Awesome -->
-  <link rel="stylesheet" href="{% static 'productos/css/bootstrap.min.css' %}" />
+  ) para que el navegador la ignore.
+  Esto resolverá el error 404 si no tienes el archivo bootstrap.min.css en la ubicación especificada.
+  Si decides usar Bootstrap en el futuro, solo necesitas descomentar esta línea y asegurarte de que el archivo exista en productos/static/productos/css/.
+  -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="icon" href="{% static 'productos/img/favicon.ico' %}" type="image/x-icon">
 
   <style>
     body {
@@ -127,7 +131,8 @@
       {% for producto in productos %}
         <div class="card">
           {% if producto.imagen %}
-            <img src="{% static 'productos/img/' %}{{ producto.imagen }}" alt="{{ producto.nombre }}">
+            {# ¡CORRECCIÓN CLAVE! Usar .url para las imágenes de productos (MEDIA_ROOT) #}
+            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
           {% else %}
             <img src="{% static 'productos/img/default.jpg' %}" alt="Imagen por defecto">
           {% endif %}
