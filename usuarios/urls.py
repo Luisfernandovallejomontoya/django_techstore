@@ -1,6 +1,10 @@
-from django.contrib import admin
+# usuarios/urls.py
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', views.login_view, name='login'),
+    path('registro/', views.registro, name='registro'),
 ]
+
+

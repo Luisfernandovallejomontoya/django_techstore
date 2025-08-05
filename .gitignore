@@ -1,0 +1,14 @@
+# Ignorar archivos de Python
+*.pyc
+__pycache__/
+
+# Entorno virtual
+venv_entorno/
+.venv/
+
+# Archivos de la base de datos local
+db.sqlite3
+
+# Archivos de la configuración local de Django
+.env
+local_settings.py
