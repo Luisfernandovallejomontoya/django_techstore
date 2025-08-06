@@ -41,10 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'productos',
     'crispy_forms',
-    'usuarios', # <--- ¡Agregamos esta línea para la nueva aplicación!
+    'crispy_bootstrap4', # <-- Asegúrate de que esta línea exista
+    'usuarios',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,7 +64,7 @@ ROOT_URLCONF = 'django_techstore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR.parent, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,11 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # --------------------------------------------------------------------------------
-                # El procesador de contexto hace que el carrito esté disponible en todas las plantillas.
-                # Es necesario para mostrar el contador de productos en la barra de navegación.
                 'productos.context_processors.carrito_procesador',
-                # --------------------------------------------------------------------------------
             ],
         },
     },

@@ -1,165 +1,171 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  {% load static %}
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="TechStore Online - Tu tienda de tecnología en línea." />
-  <title>TechStore Online - Página Principal</title>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TechStore Online - Tu tienda de tecnología en línea." />
+    <title>TechStore Online - Página Principal</title>
 
-  ) para que el navegador la ignore.
-  Esto resolverá el error 404 si no tienes el archivo bootstrap.min.css en la ubicación especificada.
-  Si decides usar Bootstrap en el futuro, solo necesitas descomentar esta línea y asegurarte de que el archivo exista en productos/static/productos/css/.
-  -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <link rel="icon" href="{% static 'productos/img/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'productos/img/favicon.ico' %}" type="image/x-icon">
 
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-    header, footer {
-      background-color: #007BFF;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
-    nav {
-      background-color: #0056b3;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px;
-    }
-    nav a {
-      background-color: #007BFF;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    nav a:hover {
-      background-color: #003f7f;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 5px;
-    }
-    .buscar input {
-      width: 250px;
-      padding: 8px;
-      margin-right: 10px;
-    }
-    .catalogo {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .card {
-      width: 300px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      transition: transform 0.2s;
-    }
-    .card:hover {
-      transform: scale(1.02);
-    }
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .card-body {
-      padding: 15px;
-    }
-    .card-title {
-      font-size: 1.1em;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-    .card-text {
-      font-size: 0.95em;
-      margin-bottom: 6px;
-    }
-    .social-icons a {
-      margin: 0 10px;
-      color: white;
-      font-size: 24px;
-      transition: 0.3s;
-    }
-    .social-icons a:hover {
-      color: #FFD700;
-      transform: scale(1.2);
-    }
-  </style>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            padding: 30px;
+            margin: 0;
+        }
+
+        header, footer {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        nav {
+            background-color: #0056b3;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #003f7f;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #444;
+        }
+
+        .catalogo {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 320px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .producto-img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .card-text {
+            font-size: 1em;
+            margin-bottom: 6px;
+            color: #666;
+        }
+
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            margin: 0 10px;
+            color: white;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #FFD700;
+            transform: scale(1.2);
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>🛒 Bienvenido a TechStore Online 🛒</h1>
-    <p>Tu tienda de tecnología en línea</p>
-  </header>
+    <header>
+        <h1>🛒 Bienvenido a TechStore Online 🛒</h1>
+        <p>Tu tienda de tecnología en línea</p>
+    </header>
 
-  <nav>
-    <a href="/productos/catalogo/">Inicio</a>
-    <a href="/productos/galeria/">Galería</a>
-    <a href="/admin/productos/producto/add/">Agregar Producto</a>
-    <a href="/admin/">Panel Admin</a>
-    <a href="/usuarios/">Usuarios</a>
-    <a href="/productos/">Productos</a>
-  </nav>
+    <nav>
+        <a href="/productos/catalogo/">Catálogo</a>
+        <a href="/productos/galeria/">Galería</a>
+        <a href="/admin/productos/producto/add/">Agregar Producto</a>
+        <a href="{% url 'registro' %}">Registro</a>
+        <a href="{% url 'login_view' %}">Login</a>
+    </nav>
 
-  <main class="container">
-    <form method="GET" class="buscar text-center">
-      <input type="text" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" />
-      <button type="submit" class="btn btn-success">🔎 Buscar</button>
-    </form>
+    <h1>🛒 Catálogo de Productos</h1>
 
-    <h2 class="text-center mt-4">Catálogo de Productos</h2>
     <div class="catalogo">
-      {% for producto in productos %}
-        <div class="card">
-          {% if producto.imagen %}
-            {# ¡CORRECCIÓN CLAVE! Usar .url para las imágenes de productos (MEDIA_ROOT) #}
-            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-          {% else %}
-            <img src="{% static 'productos/img/default.jpg' %}" alt="Imagen por defecto">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ producto.nombre }}</h5>
-            <p class="card-text">{{ producto.descripcion }}</p>
-            <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
-            <p class="card-text"><strong>Stock:</strong> {{ producto.stock }}</p>
-          </div>
-        </div>
-      {% empty %}
-        <p class="text-center">No hay productos registrados por el momento.</p>
-      {% endfor %}
-    </div>
-  </main>
+        {% for producto in productos %}
+            <div class="card">
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="producto-img">
+                {% else %}
+                    <img src="{% static 'productos/img/default.jpg' %}" alt="Imagen por defecto" class="producto-img">
+                {% endif %}
+                <h2 class="card-title">{{ producto.nombre }}</h2>
+                <p class="card-text">{{ producto.descripcion }}</p>
+                <p class="card-text">💲 <strong>Precio:</strong> ${{ producto.precio }}</p>
+                <p class="card-text">📦 <strong>Stock:</strong> {{ producto.stock }}</p>
 
-  <footer>
-    <p>&copy; 2025 TechStore Online. Todos los derechos reservados.</p>
-    <p>ING LUIS FERNANDO VALLEJO MONTOYA</p>
-    <p>CE: luisfernandovallejomontoya@gmail.com</p>
-    <p>CEL: 314-505-7441</p>
-    <div class="social-icons">
-      <a href="https://wa.me/3145057441" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-      <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-      <a href="https://vadoo.tv" target="_blank" title="Vadoo"><i class="fas fa-video"></i></a>
+                <form action="{% url 'agregar_producto' producto.id %}" method="post" style="margin-top: 15px;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-block" style="width: 100%; padding: 10px; border: none; border-radius: 5px; background-color: #007BFF; color: white; cursor: pointer;">
+                        Añadir al carrito
+                    </button>
+                </form>
+                </div>
+        {% empty %}
+            <p style="text-align:center;">No hay productos disponibles en este momento.</p>
+        {% endfor %}
     </div>
-  </footer>
+
+    <footer>
+        <p>&copy; 2025 TechStore Online. Todos los derechos reservados.</p>
+        <p>ING LUIS FERNANDO VALLEJO MONTOYA</p>
+        <p>CE: luisfernandovallejomontoya@gmail.com</p>
+        <p>CEL: 314-505-7441</p>
+        <div class="social-icons">
+            <a href="https://wa.me/3145057441" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://vadoo.tv" target="_blank" title="Vadoo"><i class="fas fa-video"></i></a>
+        </div>
+    </footer>
+
+    <script src="{% static 'productos/scripts/productos.js' %}"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('productos/', include('productos.urls')),
     path('usuarios/', include('usuarios.urls')),
+    path('', include('productos.urls')), # Esta línea es opcional para que la URL raíz ' / ' muestre el catálogo.
 ]
 
 if settings.DEBUG:
