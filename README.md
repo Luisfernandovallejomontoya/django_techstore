@@ -1,53 +1,51 @@
-Proyecto Integrador - TechStore Online
-Informe de Avance del Proyecto Integrador - Módulo 3
+# 🚀 Proyecto Integrador: TechStore Online
 
-Fecha: 6 de agosto de 2025
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-Para: Profesor Hanz Saenz, Catedrático de enyoi.co
-De: Luis Fernando Vallejo Montoya
-Asunto: Estado del proyecto TechStoreOneline
+### Informe de Avance y Estado del Proyecto
 
-Estimado Profesor Hanz Saenz,
+**Fecha:** 8 de agosto de 2025
 
-Por medio de este informe, detallo el estado actual del proyecto TechStoreOneline, enfatizando las funcionalidades que ya han sido implementadas, los avances significativos en los módulos pendientes y la tecnología utilizada, logrando un 100% de la funcionalidad principal operativa del Sprint 3. El proyecto se ha transformado de un prototipo web a una plataforma robusta con un backend real y una lógica de negocio centralizada.
+**TechStore Online** es una aplicación web de comercio electrónico desarrollada con el framework Django que ha evolucionado de un prototipo a una plataforma robusta. El proyecto cumple con el 100% de la funcionalidad principal operativa del Sprint 3 y permite a los usuarios navegar por un catálogo de productos, gestionar un carrito de compras y realizar pedidos de forma segura.
 
-1. Estructura y Funcionalidades Implementadas
-La estructura principal del proyecto ha sido validada y se encuentra en un estado funcional, cumpliendo con los requisitos del Sprint 3.
+---
 
-Autenticación de Usuarios: Se ha implementado un sistema de autenticación de usuarios que permite el registro y el inicio de sesión. Esta funcionalidad es clave para que los clientes puedan interactuar con el sistema de forma autenticada. Se ha superado el desafío inicial de compatibilidad de librerías para lograr su integración.
+## ✨ Funcionalidades Clave
 
-Módulo de Catálogo de Productos: El catálogo de productos está completamente operativo. La vista dinámica renderiza la lista de productos disponibles, mostrando su información y las imágenes asociadas de manera correcta.
+* **Autenticación de Usuarios**: Sistema robusto de registro y login que permite a los usuarios interactuar de forma segura.
+* **Catálogo de Productos**: Vista dinámica y completamente funcional que muestra los productos con sus detalles e imágenes asociadas.
+* **Búsqueda Avanzada**: Permite a los usuarios filtrar productos por nombre, descripción o precio.
+* **Carrito de Compras Persistente**:
+    * Los usuarios pueden agregar, eliminar y actualizar la cantidad de productos.
+    * El sistema calcula el total de la compra y los subtotales de forma precisa.
+    * La lógica del carrito está basada en sesiones de Django, lo que garantiza la persistencia.
+* **Gestión de Pedidos**:
+    * Los usuarios autenticados pueden procesar su carrito y convertirlo en un pedido formal.
+    * Se han creado los modelos `Pedido` y `DetallePedido` para registrar las órdenes en la base de datos.
+    * Se ha verificado que la funcionalidad de guardado es correcta a través del panel de administración.
+* **Panel de Administración (Django Admin)**: Un panel de gestión completo para los modelos `Producto`, `Categoría`, `Usuario`, `Pedido` y `DetallePedido`.
+* **Manejo de Archivos**: Las rutas `STATIC_URL` y `MEDIA_URL` han sido definidas y validadas para la correcta carga de estilos e imágenes.
 
-Carrito de Compras: La funcionalidad del carrito de compras ha sido implementada y validada por completo, superando los desafíos iniciales. El sistema ahora permite:
+---
 
-Agregar, eliminar y actualizar la cantidad de productos.
+## 🛠️ Tecnología y Arquitectura
 
-Calcular automáticamente el total de la compra, incluyendo los subtotales de cada artículo. Esta funcionalidad ahora muestra el total de forma correcta, resolviendo el problema de inconsistencia previamente detectado.
+* **Backend**: Desarrollado con el framework **Django**.
+* **Base de Datos**: Configurada con **SQLite** como motor predeterminado (`db.sqlite3`).
+* **Frontend**: Utiliza **Bootstrap** para un diseño responsivo.
+* **Control de Versiones**: El proyecto se gestiona en un repositorio de **GitHub**.
 
-Panel de Administración (Django Admin): El panel de administración de Django está conectado de forma exitosa y directa con la base de datos. Esto permite la gestión completa (CRUD) de los modelos de la aplicación, como Producto y Categoría.
+---
 
-Manejo de Archivos Estáticos y Media: Las rutas STATIC_URL y MEDIA_URL han sido definidas y validadas, garantizando que los estilos, scripts e imágenes de los productos se carguen y se muestren correctamente.
+## 💻 Requisitos e Instalación
 
-2. Tecnología y Arquitectura Implementada
-Backend: Se ha construido un backend robusto y escalable utilizando el framework Django. La lógica de negocio está centralizada en el servidor, separando la lógica de la presentación.
+Para ejecutar este proyecto, necesitas tener Python y un entorno virtual configurado.
 
-Base de Datos: El proyecto está configurado para utilizar SQLite, la base de datos por defecto de Django, con una conexión completamente funcional. La base de datos del proyecto se encuentra en la ruta db.sqlite3 dentro del directorio principal del proyecto.
+### 1. Clonar el Repositorio
 
-Control de Versiones: El proyecto está alojado en un repositorio de GitHub, lo que facilita la colaboración y el seguimiento de los avances.
-
-3. Funcionalidades Pendientes y Próximos Pasos
-El proyecto ha alcanzado el 100% de las funcionalidades principales del Sprint 3. Los próximos pasos se centrarán en las funcionalidades adicionales y la optimización del proyecto:
-
-Gestión de Pedidos: Aún está pendiente la implementación de la creación de pedidos, la consulta del historial de pedidos por usuario, y la gestión de pedidos por parte del administrador para cambiar su estado (pendiente, en proceso, enviado, entregado).
-
-Integración de Métodos de Pago: Se debe implementar el soporte para múltiples métodos de pago (tarjeta de crédito, transferencia bancaria y pago contraentrega) y el sistema de confirmación de pagos.
-
-Refactorización y optimización: Mejorar la estructura y eficiencia del código implementado, así como documentar la API.
-
-Agradezco de antemano su tiempo y valiosa consideración.
-
-Atentamente,
-
-Luis Fernando Vallejo Montoya.
-cc.75096889
-ce:luisfernandovallejomontoya@gmail.com
+```bash
+git clone [https://github.com/Luisfernandovallejomontoya/django_techstore.git](https://github.com/Luisfernandovallejomontoya/django_techstore.git)
+cd django_techstore
