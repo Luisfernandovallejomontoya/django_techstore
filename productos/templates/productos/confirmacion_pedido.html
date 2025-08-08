@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h1 class="display-4">¡Pedido Procesado Exitosamente!</h1>
+                <p class="lead">Gracias por tu compra en TechStore Online. Tu pedido está en camino.</p>
+                <a href="{% url 'catalogo' %}" class="btn btn-primary mt-3">Continuar Comprando</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -4,9 +4,13 @@ import os
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from productos.models import Producto
-from .carrito import Carrito
+from django.db import transaction
 from django.urls import reverse
+
+# Importamos los modelos necesarios, incluyendo los nuevos
+from .models import Producto, Pedido, DetallePedido
+from .carrito import Carrito
+
 
 # Vista de detalle
 def detalle_producto(request, producto_id):
@@ -85,6 +89,7 @@ def limpiar_carrito(request):
     carrito.limpiar()
     return redirect('ver_carrito')
 
+
 # Ver contenido del carrito
 def ver_carrito(request):
     """
@@ -100,12 +105,39 @@ def ver_carrito(request):
     return render(request, 'productos/carrito.html', context)
 
 
+# Vista para procesar el pedido y guardar en la base de datos
+def procesar_pedido(request):
+    if request.user.is_authenticated:
+        carrito = Carrito(request)
+        productos_carrito = carrito.get_products_in_cart()
+        
+        if not productos_carrito:
+            return redirect('ver_carrito')
+        
+        try:
+            with transaction.atomic():
+                # 1. Crear el objeto Pedido
+                pedido = Pedido.objects.create(
+                    user=request.user,
+                    total=carrito.get_total_price()
+                )
 
+                # 2. Iterar sobre el carrito para crear los DetallePedido
+                for item in productos_carrito:
+                    DetallePedido.objects.create(
+                        pedido=pedido,
+                        producto=item['producto'],
+                        cantidad=item['cantidad'],
+                        precio_unitario=item['precio']
+                    )
+            
+            # 3. Vaciar el carrito después de guardar el pedido
+            carrito.limpiar()
+            return render(request, 'productos/confirmacion_pedido.html')
 
-
-
-
-
-
-
+        except Exception as e:
+            print(f"Error al procesar el pedido: {e}")
+            return redirect('ver_carrito')
+    else:
+        return redirect('login')
 
