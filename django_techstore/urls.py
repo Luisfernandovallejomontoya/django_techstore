@@ -1,3 +1,5 @@
+# C:\Users\Administrador\Desktop\TechStoreOneline\django_techstore\django_techstore\urls.py
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -7,7 +9,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('productos/', include('productos.urls')),
     path('usuarios/', include('usuarios.urls')),
-    path('', include('productos.urls')), # Esta línea es opcional para que la URL raíz ' / ' muestre el catálogo.
+    path('', include('productos.urls')),
+    path('pedidos/', include('pedidos.urls')), # ¡Esta es la línea que faltaba!
 ]
 
 if settings.DEBUG:

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .models import CustomUser
 
-
-# Registra tu modelo 'Producto'
+# Registra tus modelos de la aplicación de usuarios aquí.
+admin.site.register(CustomUser)

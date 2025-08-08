@@ -1,5 +1,3 @@
-# productos/urls.py
-
 from django.urls import path
 from . import views
 
@@ -14,6 +12,9 @@ urlpatterns = [
     path('eliminar/<int:producto_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
     path('limpiar/', views.limpiar_carrito, name='limpiar_carrito'),
     path('ver_carrito/', views.ver_carrito, name='ver_carrito'),
+
+    # URL para procesar el pedido
+    path('procesar_pedido/', views.procesar_pedido, name='procesar_pedido'),
 
     # Otras URLs
     path('galeria/', views.galeria_local, name='galeria_local'),

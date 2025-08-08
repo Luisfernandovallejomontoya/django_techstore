@@ -7,7 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/4.2/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/4.2/ref/settings/
+https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 """
 
 from pathlib import Path
@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'productos',
     'crispy_forms',
-    'crispy_bootstrap4', # <-- Asegúrate de que esta línea exista
+    'crispy_bootstrap4',
     'usuarios',
+    'pedidos',  # <-- Aplicación 'pedidos' agregada correctamente.
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

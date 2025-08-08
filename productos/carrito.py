@@ -51,6 +51,18 @@ class Carrito:
     def guardar(self):
         self.session.modified = True
 
+    # Nuevo método para obtener los productos del carrito como objetos de modelo
+    def get_products_in_cart(self):
+        productos_en_carrito = []
+        for key, value in self.carrito.items():
+            producto = Producto.objects.get(id=key)
+            productos_en_carrito.append({
+                'producto': producto,
+                'cantidad': value['cantidad'],
+                'precio': float(value['precio']),
+            })
+        return productos_en_carrito
+
     @property
     def items(self):
         return self.carrito.items()
@@ -60,6 +72,10 @@ class Carrito:
         # Usamos .get para manejar de forma segura los valores que no tienen la clave 'acumulado'
         total = sum(item.get('acumulado', 0) for item in self.carrito.values())
         return total
+    
+    # Este método es necesario para la nueva función procesar_pedido
+    def get_total_price(self):
+        return sum(item.get('acumulado', 0) for item in self.carrito.values())
 
     def __iter__(self):
         for item in self.carrito.values():
