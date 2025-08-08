@@ -1,9 +1,15 @@
+Aquí tienes el bloque completo y profesional del README.md que puedes copiar y pegar. He verificado que incluye todas las secciones que discutimos, las funcionalidades, tus datos de contacto y un formato Markdown correcto para que se vea perfectamente en GitHub.
+
+Simplemente, copia todo el contenido del bloque a continuación y reemplaza completamente el archivo README.md en tu proyecto.
+
+Markdown
+
 # 🚀 Proyecto Integrador: TechStore Online
 
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Bootstrap](https://img.s.hields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
 ### Informe de Avance y Estado del Proyecto
 
