@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agromaker IA - Dashboard {{ municipio }}</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root { 
+            --agromaker-green: #198754; 
+            --agromaker-dark: #1e293b;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+        body { 
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            font-family: 'Inter', -apple-system, sans-serif; 
+            color: var(--agromaker-dark);
+            min-height: 100vh;
+        }
+        .nav-agromaker .btn {
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 8px 20px;
+        }
+        .nav-agromaker .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .card { 
+            border-radius: 20px; 
+            border: 1px solid rgba(0,0,0,0.05); 
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .stat-card { border-left: 6px solid; }
+        .table-responsive { max-height: 420px; overflow-y: auto; }
+        .alert-banner { border-radius: 24px; border: none; }
+        .bg-gradient-safe { background-image: linear-gradient(to right, #198754, #2ecc71); }
+        .bg-gradient-warning { background-image: linear-gradient(to right, #f39c12, #f1c40f); }
+        .bg-gradient-danger { background-image: linear-gradient(to right, #e74c3c, #c0392b); }
+        .fade-in { animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="fade-in">
+
+    <div class="container py-4">
+        
+        <header class="row mb-4 align-items-center">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-success text-white p-3 rounded-4 shadow-sm">
+                        <i class="bi bi-cpu-fill fs-3"></i>
+                    </div>
+                    <div>
+                        <h1 class="h3 fw-bold mb-0">Agromaker IA <span class="text-success fw-light">Dashboard</span></h1>
+                        <p class="text-muted mb-0 small text-uppercase fw-bold">
+                            <i class="bi bi-geo-alt-fill text-danger"></i> {{ municipio|upper }}, CALDAS
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 text-md-end mt-3 mt-md-0 nav-agromaker">
+                <div class="d-flex gap-2 justify-content-md-end">
+                    <a href="{% url 'agromaker_ai:mapa_completo' %}" class="btn btn-outline-primary shadow-sm">
+                        <i class="bi bi-map-fill me-1"></i> Mapa
+                    </a>
+                    <a href="{% url 'agromaker_ai:semaforo_ia' %}" class="btn btn-outline-warning shadow-sm text-dark">
+                        <i class="bi bi-traffic-light-fill me-1"></i> Semáforo
+                    </a>
+                    <a href="{% url 'agromaker_ai:exportar_excel' %}?municipio={{ municipio }}" class="btn btn-dark shadow-sm">
+                        <i class="bi bi-file-earmark-spreadsheet me-1"></i> Excel
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="card mb-5 alert-banner shadow-lg 
+            {% if ultimo_acumulado >= 80 %} bg-gradient-danger text-white 
+            {% elif ultimo_acumulado >= 50 %} bg-gradient-warning text-dark 
+            {% else %} bg-gradient-safe text-white {% endif %}">
+            
+            <div class="card-body p-4 p-md-5 d-flex flex-column flex-md-row align-items-center">
+                <div class="display-1 me-md-5 mb-3 mb-md-0">
+                    <i class="bi {% if ultimo_acumulado >= 80 %}bi-exclamation-octagon{% elif ultimo_acumulado >= 50 %}bi-exclamation-triangle{% else %}bi-check-circle-fill{% endif %}"></i>
+                </div>
+                <div class="text-center text-md-start">
+                    <span class="badge bg-white bg-opacity-25 text-uppercase mb-2 px-3">Análisis en Tiempo Real</span>
+                    <h2 class="fw-bold mb-2 text-uppercase">ESTADO: {{ prediccion.semaforo_estado|default:"MONITOREO" }}</h2>
+                    <p class="fs-5 opacity-75">{{ prediccion.analisis_inteligente|default:"Procesando variables climáticas..." }}</p>
+                    <p class="mb-0">Humedad Actual: <strong>{{ ultimo_acumulado|floatformat:1 }} mm</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card p-4 stat-card border-success h-100 shadow-sm">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="bg-success bg-opacity-10 p-2 rounded-3"><i class="bi bi-droplet-fill text-success fs-4"></i></div>
+                        <span class="text-muted small fw-bold">FERTILIZACIÓN</span>
+                    </div>
+                    <h3 class="fw-bold mb-1">
+                        {% if ultimo_acumulado >= 80 %}SUSPENDER{% elif ultimo_acumulado >= 50 %}PRECAUCIÓN{% else %}APLICAR{% endif %}
+                    </h3>
+                    <p class="text-muted small mb-0 text-uppercase">Recomendación IA</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card p-4 stat-card border-info h-100 shadow-sm">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="bg-info bg-opacity-10 p-2 rounded-3"><i class="bi bi-moisture text-info fs-4"></i></div>
+                        <span class="text-muted small fw-bold">OXIGENACIÓN</span>
+                    </div>
+                    <h3 class="fw-bold text-info mb-1">{% if ultimo_acumulado >= 75 %}ESTRÉS H2O{% else %}ÓPTIMA{% endif %}</h3>
+                    <p class="text-muted small mb-0 text-uppercase">Salud del Suelo</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card p-4 stat-card border-primary h-100 shadow-sm">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="bg-primary bg-opacity-10 p-2 rounded-3"><i class="bi bi-graph-up-arrow text-primary fs-4"></i></div>
+                        <span class="text-muted small fw-bold">MÁXIMO 3D</span>
+                    </div>
+                    <h3 class="fw-bold mb-0 text-primary">{{ max_acumulado|floatformat:1 }} <small class="fs-6">mm</small></h3>
+                    <p class="text-muted small mb-0 text-uppercase">Histórico Reciente</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card shadow-sm p-4 h-100">
+                    <h5 class="fw-bold mb-4 d-flex align-items-center">
+                        <i class="bi bi-water text-success me-2"></i> Tendencia de Humedad Satelital
+                    </h5>
+                    <div style="height: 380px;">
+                        <canvas id="graficoClima"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card shadow-sm p-4 h-100">
+                    <h5 class="fw-bold mb-4 d-flex align-items-center">
+                        <i class="bi bi-clock-history text-success me-2"></i> Auditoría de Registros
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="text-muted small border-bottom">
+                                <tr>
+                                    <th>FECHA</th>
+                                    <th>VALOR (MM)</th>
+                                    <th>ESTADO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dia in historial_con_riesgo %}
+                                <tr>
+                                    <td class="py-3 fw-semibold">{{ dia.FechaObservacion }}</td>
+                                    <td><span class="fw-bold text-dark">{{ dia.Acumulado_3_dias|floatformat:1 }}</span></td>
+                                    <td>
+                                        {% if dia.Estado_Riesgo == 'ALTO' %}
+                                            <span class="badge bg-danger text-white rounded-pill px-3">ALTO</span>
+                                        {% elif dia.Estado_Riesgo == 'MEDIO' %}
+                                            <span class="badge bg-warning text-dark rounded-pill px-3">MEDIO</span>
+                                        {% else %}
+                                            <span class="badge bg-success text-white rounded-pill px-3">SEGURO</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="3" class="text-center py-5 text-muted">Buscando datos satelitales...</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('graficoClima').getContext('2d');
+            
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(25, 135, 84, 0.4)');
+            gradient.addColorStop(1, 'rgba(25, 135, 84, 0.0)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ fechas_json|safe|default:"[]" }},
+                    datasets: [{
+                        label: 'Acumulado (mm)',
+                        data: {{ datos_json|safe|default:"[]" }},
+                        borderColor: '#198754',
+                        backgroundColor: gradient,
+                        borderWidth: 4,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#198754',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: { 
+                            backgroundColor: '#1e293b',
+                            padding: 12,
+                            cornerRadius: 10
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { color: '#f1f5f9' },
+                            ticks: { callback: function(value) { return value + ' mm'; } }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

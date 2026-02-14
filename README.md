@@ -1,9 +1,3 @@
-Aquí tienes el bloque completo y profesional del README.md que puedes copiar y pegar. He verificado que incluye todas las secciones que discutimos, las funcionalidades, tus datos de contacto y un formato Markdown correcto para que se vea perfectamente en GitHub.
-
-Simplemente, copia todo el contenido del bloque a continuación y reemplaza completamente el archivo README.md en tu proyecto.
-
-Markdown
-
 # 🚀 Proyecto Integrador: TechStore Online
 
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)

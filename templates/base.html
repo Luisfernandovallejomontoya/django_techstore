@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" style="overflow-y: scroll !important; height: auto !important;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agromaker IA - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* ELIMINACIÓN DE RESTRICCIONES GLOBALES */
+        html, body {
+            margin: 0;
+            padding: 0;
+            /* Forzamos a que el contenido sea el que mande sobre la altura */
+            height: auto !important;
+            min-height: 100vh !important;
+            overflow-y: visible !important; 
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header { background-color: #1a3c34; color: white; text-align: center; padding: 15px; flex-shrink: 0; }
+        
+        nav { background-color: #2d5a4c; display: flex; justify-content: center; gap: 15px; padding: 10px; flex-shrink: 0; }
+        nav a { color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; }
+        nav a:hover { background-color: #1a3c34; color: white; text-decoration: none; }
+
+        /* EL CONTENEDOR MAESTRO */
+        .main-wrapper { 
+            flex: 1 0 auto; /* Permite que el contenido crezca e "infle" la página */
+            padding: 20px 0;
+            width: 100%;
+            display: block !important;
+            /* Forzamos una altura mínima visual para asegurar que el scroll se active */
+            min-height: 800px; 
+        }
+
+        footer { 
+            background-color: #1a3c34; 
+            color: white; 
+            text-align: center; 
+            padding: 15px; 
+            flex-shrink: 0;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛰️ Agromaker IA: Monitoreo Satelital</h1>
+    </header>
+    
+    <nav>
+        <a href="/"><i class="fas fa-home"></i> Inicio</a>
+        <a href="/usuarios/login/"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="{% url 'agromaker_ai:semaforo_ia' %}"><i class="fas fa-traffic-light"></i> Semáforo IA</a>
+        <a href="{% url 'agromaker_ai:mapa_completo' %}"><i class="fas fa-map-marked-alt"></i> Mapa Satelital</a>
+        <a href="/usuarios/login/"><i class="fas fa-sign-in-alt"></i> Login</a>
+
+    </nav>
+
+    <main class="main-wrapper container-fluid">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 TechStore Online - Ing. Luis Fernando Vallejo</p>
+    </footer>
+</body>
+</html>

@@ -1,16 +1,21 @@
-# C:\Users\Administrador\Desktop\TechStoreOneline\django_techstore\django_techstore\urls.py
-
-from django.contrib import admin
+﻿from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # Todo lo de IA se maneja dentro de su propio archivo de rutas
+    path('agromaker-ai/', include('agromaker_ai.urls')), 
+    
+    # E-commerce
     path('productos/', include('productos.urls')),
     path('usuarios/', include('usuarios.urls')),
+    path('pedidos/', include('pedidos.urls')),
+    
+    # Inicio
     path('', include('productos.urls')),
-    path('pedidos/', include('pedidos.urls')), # ¡Esta es la línea que faltaba!
 ]
 
 if settings.DEBUG:

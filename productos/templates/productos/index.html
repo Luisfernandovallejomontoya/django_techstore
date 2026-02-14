@@ -8,7 +8,6 @@
     <title>TechStore Online - Página Principal</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
     <link rel="icon" href="{% static 'productos/img/favicon.ico' %}" type="image/x-icon">
 
     <style>
@@ -110,6 +109,20 @@
             color: #FFD700;
             transform: scale(1.2);
         }
+
+        /* Estilos específicos para la integración IA */
+        .ai-widget-container {
+            max-width: 1010px; 
+            margin: 0 auto 40px auto; 
+            padding: 0 10px;
+        }
+        .ai-badge-pulse {
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+            display: inline-block;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -125,6 +138,39 @@
         <a href="{% url 'registro' %}">Registro</a>
         <a href="{% url 'login_view' %}">Login</a>
     </nav>
+
+    {% if clima_widget %}
+    <div class="ai-widget-container">
+        <div style="background-color: #ffffff; border-radius: 12px; border-left: 8px solid 
+                    {% if clima_widget.semaforo_estado == 'ROJO' %}#ff4757
+                    {% elif clima_widget.semaforo_estado == 'AMARILLO' %}#ffa502
+                    {% else %}#2ed573{% endif %}; 
+                    padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); 
+                    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+            
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="font-size: 2rem;">
+                    {% if clima_widget.semaforo_estado == 'ROJO' %}🚨
+                    {% elif clima_widget.semaforo_estado == 'AMARILLO' %}⚠️
+                    {% else %}✅{% endif %}
+                </div>
+                <div>
+                    <h3 style="margin: 0; font-size: 0.8rem; color: #007BFF; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800;">
+                        Agromaker AI Intelligence
+                    </h3>
+                    <p style="margin: 5px 0 0 0; color: #222; font-size: 1.05rem; line-height: 1.4;">
+                        <span class="ai-badge-pulse" style="background-color: {% if clima_widget.semaforo_estado == 'ROJO' %}#ff4757{% elif clima_widget.semaforo_estado == 'AMARILLO' %}#ffa502{% else %}#2ed573{% endif %};"></span>
+                        <strong>{{ clima_widget.semaforo_estado }}:</strong> {{ clima_widget.analisis_inteligente|truncatechars:90 }}
+                    </p>
+                </div>
+            </div>
+
+            <a href="{% url 'agromaker_ai:estado_campo' %}" style="background-color: #007BFF; color: white; padding: 10px 22px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,123,255,0.3);">
+                <i class="fas fa-chart-line"></i> Analizar mi Campo
+            </a>
+        </div>
+    </div>
+    {% endif %}
 
     <h1>🛒 Catálogo de Productos</h1>
 
@@ -147,7 +193,7 @@
                         Añadir al carrito
                     </button>
                 </form>
-                </div>
+            </div>
         {% empty %}
             <p style="text-align:center;">No hay productos disponibles en este momento.</p>
         {% endfor %}
