@@ -1,9 +1,4 @@
 
-
-
-
-
-
 # 🚀 Proyecto Integrador: TechStore Online
 
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
@@ -55,3 +50,49 @@ Para ejecutar este proyecto, necesitas tener Python y un entorno virtual configu
 ```bash
 git clone [https://github.com/Luisfernandovallejomontoya/django_techstore.git](https://github.com/Luisfernandovallejomontoya/django_techstore.git)
 cd django_techstore
+
+
+
+📝 Propuesta de Actualización para el README.md
+🚀 Proyecto Integrador: TechStore Online + Agromaker AI
+
+Informe de Actualización y Estado del Proyecto
+Fecha: 13 de febrero de 2026
+
+TechStore Online ha evolucionado de ser un e-commerce tradicional a una plataforma integral que fusiona el comercio tecnológico con la Sostenibilidad Digital y la Inteligencia Artificial. Actualmente, el proyecto integra el módulo Agromaker AI, diseñado para el monitoreo climático y la gestión de riesgos agrícolas en la región de Filadelfia, Caldas.
+
+
+
+✨ Funcionalidades Clave (Actualizadas)🌱 Módulo Agromaker AI (NUEVO):Análisis Climático de Filadelfia: Sistema de IA que procesa datos de pluviosidad en tiempo real.Semáforo de Riesgo Inteligente: Lógica predictiva basada en umbrales (Verde: Normal | Amarillo: Alerta $\ge$ 80mm | Rojo: Peligro $\ge$ 120mm).Dashboard de Sostenibilidad: Visualización de registros climáticos históricos y actuales (Registro actual: 81.6 mm - Estado Amarillo).
+
+
+
+🛒 E-Commerce Robusto:
+
+Gestión de carrito de compras persistente basada en sesiones de Django.
+
+Sistema de pedidos con modelos Pedido y DetallePedido vinculados al perfil de usuario.
+
+🔐 Seguridad y Autenticación: Registro y Login validados con control de acceso a funciones administrativas.
+
+
+
+🛠️ Tecnología y Arquitectura
+Backend: Django 4.x / 5.x.
+
+Inteligencia Artificial: Lógica de procesamiento de datos en el módulo agromaker_ai.
+
+Base de Datos: SQLite (db.sqlite3) con registros climáticos actualizados al 2026.
+
+Frontend: Bootstrap con visualización dinámica de alertas de color neón.
+
+
+
+💻 Instalación y Uso
+Clonar: git clone https://github.com/Luisfernandovallejomontoya/django_techstore.git
+
+Activar Entorno: .\venv_entorno\Scripts\activate
+
+Ejecutar: python manage.py runserver
+
+
