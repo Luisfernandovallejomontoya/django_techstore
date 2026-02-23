@@ -166,3 +166,68 @@ Unifiqué las funcionalidades de la IA y el E-commerce.
 Añadí el badge de Docker y Pandas porque ya los integraste hoy.
 
 Actualicé el valor de humedad a 82.3 mm, que es el que verificamos en tu Excel.
+
+🚀 TechStore Online + Agromaker AI: Sostenibilidad e Inteligencia Artificial
+📊 Informe de Evolución y Estado del Proyecto
+Última actualización: 23 de febrero de 2026
+
+TechStore Online ha trascendido el comercio electrónico tradicional para convertirse en una plataforma de Sostenibilidad Digital. El sistema ahora integra el módulo Agromaker AI, una solución avanzada para el monitoreo climático y la gestión de riesgos hídricos en Filadelfia, Caldas.
+
+✨ Funcionalidades Maestras
+🌱 Módulo Agromaker AI (Ingeniería de Datos)
+Análisis Satelital en Tiempo Real: Procesamiento de datos de pluviosidad para la toma de decisiones agrícolas.
+
+Semáforo de Riesgo Predictivo: Lógica basada en umbrales técnicos:
+
+🟢 Verde: Condiciones normales (Humedad < 80mm).
+
+🟡 Amarillo (Alerta): Saturación preventiva (≥ 80mm). [Estado Actual: 82.3 mm].
+
+🔴 Rojo (Peligro): Riesgo de inundación o remoción (≥ 120mm).
+
+Dashboard de Sostenibilidad: Visualización neón con gráficos de tendencia histórica y geolocalización de lotes.
+
+✅ Fase de Reportes e Interoperabilidad
+Exportación Automática a Excel: Generación de auditorías técnicas mediante la librería openpyxl.
+
+Consistencia Documental: Validación de reportes profesionales (Reporte_Filadelfia.xlsx) listos para entrega técnica.
+
+🛒 E-Commerce y Gestión Empresarial
+Carrito de Compras Persistente: Lógica basada en sesiones de Django para asegurar la experiencia del usuario.
+
+Ciclo de Pedidos: Modelos de datos Pedido y DetallePedido para trazabilidad total de ventas.
+
+Seguridad Avanzada: Sistema de autenticación y control de accesos administrativos.
+
+🛠️ Arquitectura y Tecnologías
+Core: Django 5.x (Backend robusto).
+
+IA & Data Science: Implementación de Pandas y Numpy para análisis de suelos.
+
+Infraestructura: Dockerfile configurado para despliegue en contenedores y escalabilidad en la nube.
+
+Base de Datos: SQLite con arquitectura lista para migración a PostgreSQL.
+
+💻 Guía de Instalación Rápida
+Para poner en marcha este ecosistema tecnológico, siga estos pasos en su terminal:
+
+Bash
+
+# 1. Clonar el corazón del proyecto
+git clone https://github.com/Luisfernandovallejomontoya/django_techstore.git
+
+# 2. Preparar el entorno de trabajo
+cd django_techstore
+.\venv_entorno\Scripts\activate
+
+# 3. Instalar el cerebro del sistema (Librerías de IA y Web)
+pip install -r requirements.txt
+
+# 4. Lanzar la plataforma
+python manage.py runserver
+🔍 Notas de Auditoría (Hito Feb-2026)
+Unificación: Se consolidó el historial de 2025 con los avances de vanguardia de 2026.
+
+Dockerización: Se incluyeron los manifiestos para garantizar que el sistema funcione en cualquier servidor.
+
+Precisión: Los datos reportados (82.3 mm) coinciden con las últimas lecturas satelitales validadas en el Dashboard.
