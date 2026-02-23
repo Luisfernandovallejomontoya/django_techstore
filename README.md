@@ -96,3 +96,7 @@ Activar Entorno: .\venv_entorno\Scripts\activate
 Ejecutar: python manage.py runserver
 
 
+### ✅ Fase de Reportes Técnicos (Completada 23-Feb-2026)
+* **Generación de Reportes Excel:** Implementación de exportación automática con la librería `openpyxl`.
+* **Consistencia de Datos:** Validación de datos satelitales (82.3 mm para Filadelfia) exportados con formato profesional.
+* **Semáforo de Riesgo:** Integración total entre la IA del Dashboard y los informes descargables.
