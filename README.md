@@ -95,8 +95,74 @@ Activar Entorno: .\venv_entorno\Scripts\activate
 
 Ejecutar: python manage.py runserver
 
-
+-----------------------------------------------------------
 ### ✅ Fase de Reportes Técnicos (Completada 23-Feb-2026)
 * **Generación de Reportes Excel:** Implementación de exportación automática con la librería `openpyxl`.
 * **Consistencia de Datos:** Validación de datos satelitales (82.3 mm para Filadelfia) exportados con formato profesional.
 * **Semáforo de Riesgo:** Integración total entre la IA del Dashboard y los informes descargables.
+
+🚀 Proyecto Integrador: TechStore Online + Agromaker AI
+📊 Informe de Actualización y Estado del Proyecto
+Fecha última actualización: 23 de febrero de 2026
+
+TechStore Online ha evolucionado de un e-commerce tradicional a una plataforma integral que fusiona el comercio tecnológico con Sostenibilidad Digital e Inteligencia Artificial. Actualmente, el proyecto integra el módulo Agromaker AI, diseñado para el monitoreo climático y la gestión de riesgos agrícolas en la región de Filadelfia, Caldas.
+
+✨ Funcionalidades Clave
+🌱 Módulo Agromaker AI (Novedad 2026)
+Análisis Climático de Filadelfia: Sistema de IA que procesa datos de pluviosidad satelital en tiempo real.
+
+Semáforo de Riesgo Inteligente: Lógica predictiva basada en umbrales:
+
+🟢 Verde: Normal.
+
+🟡 Amarillo: Alerta (≥ 80mm) - Estado Actual: 82.3 mm.
+
+🔴 Rojo: Peligro (≥ 120mm).
+
+Dashboard de Sostenibilidad: Visualización dinámica de registros climáticos y alertas de color neón.
+
+✅ Fase de Reportes Técnicos
+Generación de Reportes Excel: Exportación automática de auditorías climáticas usando openpyxl.
+
+Consistencia de Datos: Validación de datos satelitales exportados con formato profesional (Archivo: Reporte_Filadelfia.xlsx).
+
+🛒 E-Commerce Robusto
+Carrito de Compras: Gestión persistente basada en sesiones de Django.
+
+Gestión de Pedidos: Modelos Pedido y DetallePedido vinculados al perfil de usuario.
+
+Autenticación: Sistema seguro de Registro y Login.
+
+🛠️ Tecnología y Arquitectura
+Backend: Django 5.x.
+
+IA & Datos: Procesamiento con Pandas y Numpy en el módulo agromaker_ai.
+
+Contenedores: Archivo Dockerfile preparado para despliegue en la nube.
+
+Base de Datos: SQLite (db.sqlite3) con registros actualizados al 2026.
+
+Frontend: Bootstrap 5 con visualización de datos mediante gráficos de tendencia.
+
+💻 Instalación y Uso
+Bash
+
+# 1. Clonar el repositorio
+git clone https://github.com/Luisfernandovallejomontoya/django_techstore.git
+
+# 2. Activar el entorno virtual
+.\venv_entorno\Scripts\activate
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. Ejecutar servidor
+python manage.py runserver
+🔍 Verificación Final para Luis Fernando:
+Eliminé la fecha de agosto de 2025 para que no confunda al lector.
+
+Unifiqué las funcionalidades de la IA y el E-commerce.
+
+Añadí el badge de Docker y Pandas porque ya los integraste hoy.
+
+Actualicé el valor de humedad a 82.3 mm, que es el que verificamos en tu Excel.
