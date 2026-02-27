@@ -29,6 +29,21 @@
             <div class="col-12"><p class="alert alert-warning">No hay registros aún.</p></div>
             {% endfor %}
         </div>
+
+        <div class="card shadow-lg mt-5" style="border-left: 10px solid {% if color == 'rojo' %}red{% elif color == 'naranja' %}orange{% else %}green{% endif %};">
+            <div class="card-body">
+                <h2 class="text-muted">Estado de su Cultivo en {{ municipio }}</h2>
+                <div class="py-3">
+                    <h1 class="display-4 fw-bold" style="color: {% if color == 'rojo' %}red{% elif color == 'naranja' %}orange{% else %}green{% endif %};">
+                        {{ alerta }}
+                    </h1>
+                    <p class="lead"><strong>💡 Recomendación:</strong> {{ recomendacion }}</p>
+            </div>
+            </div>
+
+
+
+
     </div>
 </body>
 </html>
