@@ -2,116 +2,80 @@
 {% block content %}
 
 <style>
-    /* Estilos profesionales para las tarjetas de IA */
     .card-ia {
         border-radius: 20px;
         border: none;
-        transition: transform 0.3s;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        background: white;
+        margin-bottom: 20px;
     }
-    .card-ia:hover { transform: translateY(-5px); }
-    
-    .semaforo-container {
-        padding: 20px;
-        border-radius: 50%;
-        display: inline-block;
-        margin-bottom: 15px;
-    }
-
-    .bg-semaforo-rojo { background-color: #ff4d4d; box-shadow: 0 0 20px #ff4d4d; }
-    .bg-semaforo-amarillo { background-color: #ffcc00; box-shadow: 0 0 20px #ffcc00; }
-    .bg-semaforo-verde { background-color: #2ecc71; box-shadow: 0 0 20px #2ecc71; }
+    /* Indicadores de Semáforo IA */
+    .borde-verde { border-left: 8px solid #27ae60; }
+    .borde-rojo { border-left: 8px solid #e74c3c; }
+    .borde-naranja { border-left: 8px solid #f39c12; }
 </style>
 
 <div class="container-fluid bg-light pb-5">
-    <div class="row pt-4 mb-4">
-        <div class="col-12 text-center">
-            <h1 class="display-4 fw-bold" style="color: #1a3c34;">🛰️ Panel de Control Agromaker IA</h1>
-            <div class="alert alert-info d-inline-block mt-2 px-4 shadow-sm">
-                <strong>Análisis de IA:</strong> {{ prediccion.analisis_inteligente }}
+    <div class="row pt-4 mb-4 text-center">
+        <div class="col-12">
+            <h1 class="display-4 fw-bold" style="color: #1a3c34;">🛰️ Monitor de Suelos - Filadelfia</h1>
+            <div class="alert {% if color == 'rojo' %}alert-danger{% elif color == 'naranja' %}alert-warning{% else %}alert-success{% endif %} d-inline-block px-5 shadow-sm border-0" style="border-radius: 50px;">
+                <i class="fas fa-robot"></i> <strong>Análisis de IA:</strong> {{ alerta }} — {{ recomendacion }}
             </div>
         </div>
     </div>
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card card-ia text-center h-100 p-4">
-                    <h3 class="text-muted">Estado Actual</h3>
-                    <div class="py-3">
-                        {% if prediccion.semaforo_estado == "ROJO" %}
-                            <div class="semaforo-container bg-semaforo-rojo"><i class="fas fa-exclamation-triangle fa-5x text-white"></i></div>
-                        {% elif prediccion.semaforo_estado == "AMARILLO" %}
-                            <div class="semaforo-container bg-semaforo-amarillo"><i class="fas fa-info-circle fa-5x text-white"></i></div>
-                        {% else %}
-                            <div class="semaforo-container bg-semaforo-verde"><i class="fas fa-check-circle fa-5x text-white"></i></div>
-                        {% endif %}
-                    </div>
-                    <h2 class="fw-bold">{{ prediccion.semaforo_estado }}</h2>
-                    <p>Humedad: {{ ultimo_acumulado }} mm</p>
-                    
-                    <a href="{% url 'agromaker_ai:exportar_excel' %}?municipio={{ municipio }}" class="btn btn-success mt-3 shadow">
-                        <i class="fas fa-file-excel"></i> Descargar Reporte (7 Días)
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-md-8 mb-4">
-                <div class="card card-ia h-100 shadow">
-                    <div class="card-header bg-dark text-white d-flex justify-content-between">
-                        <span><i class="fas fa-table"></i> Historial de Monitoreo</span>
-                        <span class="badge badge-light">{{ municipio|upper }}</span>
-                    </div>
-                    <div class="card-body p-0">
-                        <table class="table table-hover mb-0">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Nivel (mm)</th>
-                                    <th>Riesgo IA</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in historial_con_riesgo %}
-                                <tr>
-                                    <td>{{ item.FechaObservacion }}</td>
-                                    <td>{{ item.Acumulado_3_dias }}</td>
-                                    <td>
-                                        <span class="badge {% if item.Estado_Riesgo == 'ALTO' %}badge-danger{% elif item.Estado_Riesgo == 'MEDIO' %}badge-warning{% else %}badge-success{% endif %}">
-                                            {{ item.Estado_Riesgo }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+            {% for r in registros %}
+            <div class="col-md-4">
+                <div class="card card-ia p-3 shadow-sm border-start border-4 {% if r.ph < 5.5 %}border-danger{% else %}border-success{% endif %}">
+                    <h6 class="fw-bold text-primary">{{ r.lote|upper }}</h6>
+                    <small class="text-muted"><i class="far fa-clock"></i> {{ r.fecha|date:"d/m/Y H:i" }}</small>
+                    <hr class="my-2">
+                    <div class="d-flex justify-content-between">
+                        <span>🧪 pH: <strong>{{ r.ph }}</strong></span>
+                        <span>💧 Hum: <strong>{{ r.conductividad|default:r.humedad|default:"0" }}%</strong></span>
                     </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="col-12 text-center text-muted">No hay pulsos de sensores registrados.</div>
+            {% endfor %}
         </div>
 
-        <div class="row mt-2">
+        <div class="row mt-4">
             <div class="col-12">
-                <div class="card card-ia shadow">
-                    <div class="card-body">
-                        <h3 class="mb-3"><i class="fas fa-map-marked-alt text-success"></i> Ubicación Georreferenciada</h3>
-                        <div id="mapa-satelital" style="height: 400px; border-radius: 15px;"></div>
+                <div class="card card-ia p-5 text-center shadow-lg">
+                    <h2 class="display-5 fw-bold {% if color == 'rojo' %}text-danger{% elif color == 'naranja' %}text-warning{% else %}text-success{% endif %}">
+                        {{ alerta }}
+                    </h2>
+                    <p class="lead text-dark fw-bold">{{ recomendacion }}</p>
+                    
+                    <div class="row mt-4 justify-content-center">
+                        <div class="col-md-4 border-end">
+                            <h4 class="text-muted"><i class="fas fa-flask"></i> Nivel de pH</h4>
+                            <p class="display-4 fw-bold">{{ registro.ph|default:"--" }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="text-muted"><i class="fas fa-tint"></i> Humedad Suelo</h4>
+                            <p class="display-4 fw-bold text-primary">
+                                {{ registro.conductividad|default:registro.humedad|default:"--" }}%
+                            </p>
+                        </div>
                     </div>
+
+                    <button onclick="window.print()" class="btn btn-outline-dark mt-4 border-0">
+                        <i class="fas fa-certificate"></i> Certificado Fondo 305 CEO
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const coords = [5.2974, -75.5606];
-        const map = L.map('mapa-satelital').setView(coords, 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        L.marker(coords).addTo(map).bindPopup("<b>Lote Filadelfia</b>").openPopup();
-    });
-</script>
+<div class="text-center mt-4 text-muted small pb-4">
+    <strong>Fondo de Emergencia 305 CEO</strong> | Activo Loan: Gobierno de Colombia | IA Agromaker 2026
+</div>
 
 {% endblock %}

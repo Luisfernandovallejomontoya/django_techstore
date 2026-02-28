@@ -2,9 +2,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Esta ruta cargará el tablero de Filadelfia
+    # 1. Monitor Principal (El semáforo IA que ya logramos estabilizar)
+    # Lo dejamos como ruta principal ('') para que cargue al entrar a la app
+    path('', views.reporte_campesino, name='reporte_campesino'),
+
+    # 2. Historial Técnico para Auditoría (Fondo 305 CEO)
     path('dashboard/', views.dashboard_suelos, name='dashboard_suelos'),
-    
-    # Ruta para el reporte individual del campesino
-    path('alerta-campesino/', views.reporte_campesino, name='alerta_campesino'),
-] # <--- Asegúrate de que este corchete esté ahí.
+
+    # 3. Registro de datos (Entrada desde tablet o sensor)
+    path('registrar/', views.registrar_dato, name='registrar_dato'),
+
+    # 4. EXPORTACIÓN OFICIAL (NUEVA: Para el certificado PDF)
+    path('exportar-pdf/', views.exportar_pdf_suelo, name='exportar_pdf'),
+]
