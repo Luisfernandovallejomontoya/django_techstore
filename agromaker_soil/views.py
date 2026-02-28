@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.template.loader import get_template
 from .models import RegistroSuelo
+from xhtml2pdf import pisa # Importación para los certificados
 
 def dashboard_suelos(request):
     """ Historial técnico completo para auditoría de activos (Fondo 305 CEO) """
@@ -11,16 +14,12 @@ def reporte_campesino(request):
     ultimo_registro = RegistroSuelo.objects.last()
     todos_los_registros = RegistroSuelo.objects.all().order_by('-fecha')
     
-    # Valores por defecto para el sistema
     alerta = "ESTADO ÓPTIMO"
     recomendacion = "Puede proceder con las labores programadas."
     color = "verde"
 
     if ultimo_registro:
-        # Sincronización: Extraemos la humedad de la columna 'conductividad'
         val_humedad = getattr(ultimo_registro, 'conductividad', 0)
-        
-        # Conversión segura (Blindaje contra comas de teclados de tablets)
         try:
             val_humedad_num = float(str(val_humedad).replace(',', '.')) if val_humedad else 0
             val_ph_num = float(str(ultimo_registro.ph).replace(',', '.')) if ultimo_registro.ph else 7.0
@@ -28,7 +27,6 @@ def reporte_campesino(request):
             val_humedad_num = 0
             val_ph_num = 7.0
         
-        # --- MOTOR DE DECISIONES IA AGROMAKER ---
         if val_ph_num < 5.5:
             alerta = "ALERTA DE ACIDEZ"
             recomendacion = "Aplicar enmienda (cal agrícola) para corregir el pH."
@@ -55,11 +53,9 @@ def registrar_dato(request):
         ph_valor = request.POST.get('ph')
         h_val = request.POST.get('humedad') 
 
-        # LIMPIEZA: Convertimos comas en puntos para no romper la base de datos
         if ph_valor: ph_valor = ph_valor.replace(',', '.')
         if h_val: h_val = h_val.replace(',', '.')
 
-        # GUARDADO CRÍTICO: Usamos 'conductividad' como nombre de columna real
         RegistroSuelo.objects.create(
             lote=lote_nombre,
             ph=ph_valor,
@@ -69,3 +65,26 @@ def registrar_dato(request):
         return redirect('reporte_campesino') 
     
     return render(request, 'agromaker_soil/registrar.html')
+
+def exportar_pdf_suelo(request):
+    """ Genera certificado oficial con respaldo del Fondo 305 CEO """
+    ultimo_registro = RegistroSuelo.objects.last()
+    
+    contexto = {
+        'registro': ultimo_registro,
+        'municipio': 'Filadelfia, Caldas',
+        'status_ceo': "ACTIVO SUBSIDIADO - FONDO 305 CEO"
+    }
+    
+    template = get_template('agromaker_soil/pdf_template.html')
+    html = template.render(contexto)
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="Certificado_Agromaker_CEO.pdf"'
+    
+    # Creación del PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    
+    if pisa_status.err:
+        return HttpResponse('Error al generar el certificado técnico', status=500)
+    return response
