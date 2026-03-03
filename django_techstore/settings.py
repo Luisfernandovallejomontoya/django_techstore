@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'pedidos',
     'publicidad_ia.apps.PublicidadIaConfig',
     'agromaker_ai',
+    'agromaker_soil',  # <--- AGREGA ESTA LÍNEA AQUÍ
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

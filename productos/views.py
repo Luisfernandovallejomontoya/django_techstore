@@ -7,12 +7,24 @@ from django.db.models import Q
 from django.db import transaction
 from django.urls import reverse
 
-# Importamos los modelos necesarios, incluyendo los nuevos
+# Importamos los modelos necesarios
 from .models import Producto, Pedido, DetallePedido
 from .carrito import Carrito
 
+# ==========================================
+# 🏠 VISTA DEL HUB AGROMAKER (NUEVA)
+# ==========================================
+def hub_agromaker(request):
+    """
+    Punto de entrada principal del sistema.
+    Muestra el panel con acceso a Suelos e IA Satelital.
+    """
+    return render(request, 'hub_agromaker.html')
 
-# Vista de detalle
+# ==========================================
+# 🏬 VISTAS DEL CATÁLOGO Y DETALLE
+# ==========================================
+
 def detalle_producto(request, producto_id):
     producto = get_object_or_404(Producto, pk=producto_id)
     context = {
@@ -20,14 +32,10 @@ def detalle_producto(request, producto_id):
     }
     return render(request, 'productos/detalle.html', context)
 
-
-# Vista principal: catálogo inicial
 def index(request):
     productos = Producto.objects.all().order_by("nombre")
     return render(request, "productos/index.html", {"productos": productos})
 
-
-# Búsqueda avanzada en el catálogo
 def catalogo(request):
     query = request.GET.get("q", "").strip()
     productos = Producto.objects.all()
@@ -46,8 +54,10 @@ def catalogo(request):
     }
     return render(request, "productos/index.html", contexto)
 
+# ==========================================
+# 🖼️ GALERÍA LOCAL
+# ==========================================
 
-# Galería local
 def galeria_local(request):
     ruta_img = os.path.join(settings.BASE_DIR, "productos", "static", "productos", "img")
     imagenes = []
@@ -58,44 +68,34 @@ def galeria_local(request):
         ]
     return render(request, "productos/galeria.html", {"imagenes": imagenes})
 
+# ==========================================
+# 🛒 LÓGICA DEL CARRITO (CLASE CARRITO)
+# ==========================================
 
-# Agregar producto al carrito
 def agregar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = get_object_or_404(Producto, pk=producto_id)
     carrito.agregar(producto)
     return redirect('ver_carrito')
 
-
-# Restar cantidad de un producto
 def restar_del_carrito(request, producto_id):
     carrito = Carrito(request)
     producto = get_object_or_404(Producto, pk=producto_id)
     carrito.restar(producto)
     return redirect('ver_carrito')
 
-
-# Eliminar producto del carrito por completo
 def eliminar_del_carrito(request, producto_id):
     carrito = Carrito(request)
     producto = get_object_or_404(Producto, pk=producto_id)
     carrito.quitar(producto)
     return redirect('ver_carrito')
 
-
-# Vaciar por completo el carrito
 def limpiar_carrito(request):
     carrito = Carrito(request)
     carrito.limpiar()
     return redirect('ver_carrito')
 
-
-# Ver contenido del carrito
 def ver_carrito(request):
-    """
-    Gestiona la vista del carrito.
-    Maneja el UnicodeDecodeError limpiando la sesión del carrito si está corrupta.
-    """
     try:
         carrito = Carrito(request)
         context = {'carrito': carrito}
@@ -104,8 +104,10 @@ def ver_carrito(request):
         return redirect('ver_carrito')
     return render(request, 'productos/carrito.html', context)
 
+# ==========================================
+# 📦 PROCESAMIENTO DE PEDIDOS
+# ==========================================
 
-# Vista para procesar el pedido y guardar en la base de datos
 def procesar_pedido(request):
     if request.user.is_authenticated:
         carrito = Carrito(request)
@@ -140,4 +142,3 @@ def procesar_pedido(request):
             return redirect('ver_carrito')
     else:
         return redirect('login')
-

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-success">🛰️ Agromaker Hub 🛰️</h1>
+        <p class="lead text-muted">Panel Integrado de Control Agrícola - Filadelfia, Caldas</p>
+        <hr class="w-25 mx-auto border-success border-2">
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-5">
+            <div class="card h-100 shadow border-0 overflow-hidden" style="border-radius: 20px;">
+                <div class="card-body text-center p-5">
+                    <div class="display-2 mb-3">🌱</div>
+                    <h2 class="h3 fw-bold">Monitor de Suelos</h2>
+                    <p class="text-muted">Análisis químico de pH y recomendaciones de abono para tus lotes.</p>
+                    <a href="{% url 'dashboard_suelos' %}" class="btn btn-success btn-lg w-100 mt-3 rounded-pill shadow-sm">
+                        Entrar al Monitor
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card h-100 shadow border-0 overflow-hidden" style="border-radius: 20px;">
+                <div class="card-body text-center p-5">
+                    <div class="display-2 mb-3">☁️</div>
+                    <h2 class="h3 fw-bold">IA Satelital</h2>
+                    <p class="text-muted">Predicción climática y sensores de humedad mediante inteligencia artificial.</p>
+                    <a href="{% url 'agromaker_ai:semaforo_ia' %}" class="btn btn-primary btn-lg w-100 mt-3 rounded-pill shadow-sm">
+                        Consultar IA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <a href="{% url 'index' %}" class="btn btn-outline-secondary">
+            ⬅️ Volver al Catálogo de Productos
+        </a>
+    </div>
+</div>
+
+<style>
+    /* Efecto visual profesional */
+    .card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card:hover { 
+        transform: translateY(-10px); 
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.15) !important; 
+    }
+</style>
+{% endblock %}
