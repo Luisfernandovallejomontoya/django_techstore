@@ -668,3 +668,64 @@ Propiedad Intelectual: Código fuente respaldado en GitHub bajo la rama agromake
 
 © 2026 Agromaker Colombia AI - Filadelfia, Caldas. Tecnología para la Paz.
  main
+----------------------------------------------------------------------------
+
+# 🚀 Agromaker AI + TechStore Online
+### Sostenibilidad Digital e Inteligencia Artificial para el Agro
+**Ubicación:** Filadelfia, Caldas, Colombia | **Fecha:** 3 de Marzo, 2026
+
+---
+
+## 🛡️ Estatus del Proyecto: RELEASE v1.1 - OPERATIVO
+Este ecosistema tecnológico ha evolucionado a una plataforma de **Gestión de Activos Críticos**, integrando monitoreo satelital y sensores de hardware en tiempo real.
+
+## 🚀 Hitos Consolidados (Marzo 2026)
+
+### 1. Módulo de Reporte Matutino (Auditoría Nocturna)
+Sistema de análisis que procesa las lecturas críticas de las últimas 12 horas:
+* **Detección de Saturación:** Alertas automáticas para humedad > 88% (Validado: **92.0%**).
+* **Análisis de Acidez:** Monitoreo de pH en tiempo real (Validado: **pH 5.1** - Alerta Crítica).
+* **Semáforo de Riesgo:** Verde (Normal) | Amarillo (Alerta) | Rojo (Peligro).
+
+### 📊 Interfaz de Mando CEO y Reportes
+* **Dashboard "Búnker":** Visualización de alta fidelidad para toma de decisiones.
+* **Certificación Legal:** Reportes PDF automatizados para auditorías de **YSA** y **KOSME**.
+* **Ruta de Datos:** `django_techstore/media/reports/data_source/monitoreo_filadelfia_2026.xlsx`
+
+## ⚖️ Blindaje Jurídico y Financiero
+* **Fondo 305 CEO:** Recursos NO NEGOCIABLES destinados al sostenimiento y emergencia.
+* **Acuerdo Gubernamental:** Activos en comodato subsidiados por el **Gobierno de Colombia**.
+* **Fondo de Auxilio:** Activación del **15% de emergencia** ante desastres hídricos.
+
+## 🛠️ Especificaciones Técnicas
+* **Backend:** Django 5.x.
+* **Data Science:** Pandas y Numpy para análisis de suelos.
+* **Hardware IoT:** Recepción de paquetes JSON desde estaciones de campo.
+
+---
+
+## 💻 Guía de Instalación Rápida
+```bash
+git clone [https://github.com/Luisfernandovallejomontoya/django_techstore.git](https://github.com/Luisfernandovallejomontoya/django_techstore.git)
+cd django_techstore
+.\venv_entorno\Scripts\activate
+pip install -r requirements.txt
+python manage.py runserver
+
+
+### 🛠️ 2. El Golpe de Autoridad (Terminal)
+Una vez guardado el archivo limpio en VS Code, ejecute estos comandos para forzar a GitHub a aceptar la versión del CEO y eliminar la basura de 2025:
+
+
+
+```powershell
+# 1. Agregar el archivo limpio
+git add README.md
+
+# 2. Commit de consolidación
+git commit -m "ORDEN: Limpieza Total y Blindaje 3-Marzo-2026"
+
+# 3. Empuje forzado a la rama soberana
+git push origin principal --force
+
+
