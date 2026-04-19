@@ -729,3 +729,43 @@ git commit -m "ORDEN: Limpieza Total y Blindaje 3-Marzo-2026"
 git push origin principal --force
 
 
+----------------------------------------------------------------------------
+
+Markdown
+
+# 🚀 Agromaker AI + TechStore Online
+### Sostenibilidad Digital e Inteligencia Artificial para el Agro
+**Ubicación:** Caldas, Colombia | **Fecha:** 18 de Abril, 2026
+
+---
+
+## 🛡️ Estatus del Proyecto: FASE DE FORMACIÓN - OPERATIVO
+Este ecosistema tecnológico integra un e-commerce robusto con una plataforma de **Gestión de Activos Críticos**, monitoreo de suelos y clima en tiempo real.
+
+## 🚀 Hitos Consolidados (Abril 2026)
+
+### 1. Módulo de Semaforización (Caldas 27/16)
+Sistema de análisis que procesa lecturas de los 27 municipios y 16 pisos térmicos:
+* **Interpretación de Suelos:** Lógica de pH (Óptimo > 5.5) y Humedad con alertas de saturación.
+* **Semáforo de Riesgo:** Visualización neón dinámica (Verde: Normal | Amarillo: Alerta | Rojo: Peligro).
+* **Integridad de Datos:** Filtro de coherencia para sensores IoT y tablets en campo.
+
+### 📊 Gestión Empresarial y E-Commerce
+* **Carrito Persistente:** Lógica de sesiones de Django para pedidos seguros.
+* **Trazabilidad:** Modelos de Pedido y DetallePedido vinculados al perfil del usuario.
+* **Certificación:** Generación de reportes PDF técnicos para auditorías.
+
+## ⚖️ Blindaje Jurídico y Financiero
+* **Fondo 305 CEO:** Recursos no negociables destinados exclusivamente al sostenimiento del proyecto.
+* **Propiedad de Activos:** Sensores y tablets son activos innegociables de **Agromaker Colombia (AI) S.A.S.**
+* **Soberanía:** Código fuente respaldado para la autonomía tecnológica regional.
+
+---
+
+## 💻 Guía de Instalación Rápida
+```bash
+git clone [https://github.com/Luisfernandovallejomontoya/django_techstore.git](https://github.com/Luisfernandovallejomontoya/django_techstore.git)
+cd django_techstore
+.\venv_entorno\Scripts\activate
+pip install -r requirements.txt
+python manage.py runserver
