@@ -1,5 +1,6 @@
 # agromaker_soil/reports_logic.py
 from .models import RegistroSuelo
+from .helpers import humedad_coherente
 from django.utils import timezone
 from datetime import timedelta
 
@@ -26,8 +27,7 @@ def analizar_monitoreo_nocturno():
     for r in registros:
         try:
             val_ph = float(str(r.ph).replace(',', '.')) if r.ph else 7.0
-            # CORRECCIÓN VITAL: Usamos 'conductividad' que es donde guardamos la humedad
-            val_h = float(str(r.conductividad).replace(',', '.')) if r.conductividad else 0.0
+            val_h = humedad_coherente(r)
             lista_ph.append(val_ph)
             lista_humedad.append(val_h)
         except (ValueError, TypeError):

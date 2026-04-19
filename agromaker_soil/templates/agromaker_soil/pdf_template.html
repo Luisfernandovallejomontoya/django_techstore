@@ -23,7 +23,7 @@
         <p><strong>Fecha de Muestreo:</strong> {{ registro.fecha|date:"d/m/Y H:i" }}</p>
         <table class="data-table">
             <tr><td>Nivel de pH</td><td class="highlight">{{ registro.ph }}</td></tr>
-            <tr><td>Humedad Detectada</td><td class="highlight">{{ registro.conductividad }}%</td></tr>
+            <tr><td>Humedad Detectada</td><td class="highlight">{{ registro.humedad_lectura }}%</td></tr>
         </table>
         <p style="margin-top: 30px;"><strong>Estatus legal:</strong> {{ status_ceo }}</p>
     </div>

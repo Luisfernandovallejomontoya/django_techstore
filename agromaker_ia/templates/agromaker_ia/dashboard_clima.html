@@ -8,18 +8,29 @@
         box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         background: white;
         margin-bottom: 20px;
+        transition: transform 0.3s ease;
     }
-    /* Indicadores de Semáforo IA */
-    .borde-verde { border-left: 8px solid #27ae60; }
-    .borde-rojo { border-left: 8px solid #e74c3c; }
-    .borde-naranja { border-left: 8px solid #f39c12; }
+    .card-ia:hover { transform: translateY(-5px); }
+    
+    /* Animación para alertas críticas - Activos del Fondo 305 CEO */
+    .pulso-alerta {
+        animation: pulse-red 2s infinite;
+        border: 2px solid #e74c3c;
+    }
+    @keyframes pulse-red {
+        0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+        70% { box-shadow: 0 0 0 15px rgba(231, 76, 60, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+    }
 </style>
 
 <div class="container-fluid bg-light pb-5">
     <div class="row pt-4 mb-4 text-center">
         <div class="col-12">
             <h1 class="display-4 fw-bold" style="color: #1a3c34;">🛰️ Monitor de Suelos - Filadelfia</h1>
-            <div class="alert {% if color == 'rojo' %}alert-danger{% elif color == 'naranja' %}alert-warning{% else %}alert-success{% endif %} d-inline-block px-5 shadow-sm border-0" style="border-radius: 50px;">
+            
+            <div class="alert d-inline-block px-5 shadow-sm border-0" 
+                 style="border-radius: 50px; background-color: {{ color_hex }}; color: {% if color == 'amarillo' or color_hex == '#ffc107' %}#000{% else %}#fff{% endif %};">
                 <i class="fas fa-robot"></i> <strong>Análisis de IA:</strong> {{ alerta }} — {{ recomendacion }}
             </div>
         </div>
@@ -29,13 +40,20 @@
         <div class="row">
             {% for r in registros %}
             <div class="col-md-4">
-                <div class="card card-ia p-3 shadow-sm border-start border-4 {% if r.ph < 5.5 %}border-danger{% else %}border-success{% endif %}">
+                <div class="card card-ia p-3 shadow-sm border-start border-5" 
+                     style="border-left-color: {{ r.estado_semaforo.color_hex|default:'#ccc' }} !important;">
+                    
                     <h6 class="fw-bold text-primary">{{ r.lote|upper }}</h6>
                     <small class="text-muted"><i class="far fa-clock"></i> {{ r.fecha|date:"d/m/Y H:i" }}</small>
                     <hr class="my-2">
+                    
                     <div class="d-flex justify-content-between">
-                        <span>🧪 pH: <strong>{{ r.ph }}</strong></span>
-                        <span>💧 Hum: <strong>{{ r.conductividad|default:r.humedad|default:"0" }}%</strong></span>
+                        <span>🧪 pH: <strong>{{ r.ph|floatformat:1 }}</strong></span>
+                        <span>💧 Hum: <strong>{{ r.humedad|default:"0"|floatformat:1 }}%</strong></span>
+                    </div>
+                    
+                    <div class="mt-2 small fw-bold" style="color: {{ r.estado_semaforo.color_hex }};">
+                        {{ r.interpretacion_ph }}
                     </div>
                 </div>
             </div>
@@ -46,8 +64,8 @@
 
         <div class="row mt-4">
             <div class="col-12">
-                <div class="card card-ia p-5 text-center shadow-lg">
-                    <h2 class="display-5 fw-bold {% if color == 'rojo' %}text-danger{% elif color == 'naranja' %}text-warning{% else %}text-success{% endif %}">
+                <div class="card card-ia p-5 text-center shadow-lg {% if color == 'rojo' or 'CRÍTICO' in alerta %}pulso-alerta{% endif %}">
+                    <h2 class="display-5 fw-bold" style="color: {{ color_hex }};">
                         {{ alerta }}
                     </h2>
                     <p class="lead text-dark fw-bold">{{ recomendacion }}</p>
@@ -60,22 +78,25 @@
                         <div class="col-md-4">
                             <h4 class="text-muted"><i class="fas fa-tint"></i> Humedad Suelo</h4>
                             <p class="display-4 fw-bold text-primary">
-                                {{ registro.conductividad|default:registro.humedad|default:"--" }}%
+                                {{ registro.humedad|default:"0" }}%
                             </p>
                         </div>
                     </div>
 
-                    <button onclick="window.print()" class="btn btn-outline-dark mt-4 border-0">
-                        <i class="fas fa-certificate"></i> Certificado Fondo 305 CEO
-                    </button>
+                    <div class="mt-4">
+                        <button onclick="window.print()" class="btn btn-dark px-4 py-2 shadow" style="border-radius: 30px;">
+                            <i class="fas fa-certificate"></i> Certificado Fondo 305 CEO
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="text-center mt-4 text-muted small pb-4">
-    <strong>Fondo de Emergencia 305 CEO</strong> | Activo Loan: Gobierno de Colombia | IA Agromaker 2026
-</div>
+<footer class="text-center mt-4 text-muted small pb-4">
+    <hr class="w-25 mx-auto">
+    <strong>Fondo de Emergencia 305 CEO</strong> | Activos Agromaker Colombia (AI) S.A.S. | Filadelfia, Caldas 2026
+</footer>
 
 {% endblock %}

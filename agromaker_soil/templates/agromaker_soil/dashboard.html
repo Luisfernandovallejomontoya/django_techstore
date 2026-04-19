@@ -26,14 +26,15 @@
         <div class="row">
             {% for r in registros %}
             <div class="col-md-4 mb-4">
-                <div class="card shadow-sm border-0 card-ia border-start border-4 {% if r.ph < 5.5 %}border-danger{% else %}border-success{% endif %}">
+                <div class="card shadow-sm border-0 card-ia border-start border-4" style="border-left-color: {{ r.estado_semaforo.color_hex }} !important; border-left-width: 4px !important;">
                     <div class="card-body">
                         <h5 class="card-title fw-bold text-primary">{{ r.lote|upper }}</h5>
                         <p class="text-muted small"><i class="far fa-clock"></i> {{ r.fecha|date:"d/m/Y H:i" }}</p>
+                        <p class="small fw-semibold mb-2" style="color: {{ r.estado_semaforo.color_hex }};">{{ r.interpretacion_ph }}</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="h5 mb-0">🧪 pH: <strong>{{ r.ph }}</strong></span>
-                            <span class="h5 mb-0">💧 Hum: <strong>{{ r.conductividad|default:"0" }}%</strong></span>
+                            <span class="h5 mb-0">💧 Hum: <strong>{{ r.humedad_lectura }}%</strong></span>
                         </div>
                     </div>
                 </div>
@@ -47,13 +48,16 @@
             {% endfor %}
         </div>
 
-        <div class="card shadow-lg mt-5 border-0 card-ia" style="border-left: 15px solid {% if color == 'rojo' %}#dc3545{% elif color == 'naranja' %}#fd7e14{% else %}#198754{% endif %};">
+        <div class="card shadow-lg mt-5 border-0 card-ia" style="border-left: 15px solid {{ color_hex }};">
             <div class="card-body p-5">
                 <h2 class="text-muted">Estado de su Cultivo en {{ municipio }}</h2>
                 <div class="py-3">
-                    <h1 class="display-2 fw-bold" style="color: {% if color == 'rojo' %}#dc3545{% elif color == 'naranja' %}#fd7e14{% else %}#198754{% endif %};">
+                    <h1 class="display-2 fw-bold" style="color: {{ color_hex }};">
                         {{ alerta }}
                     </h1>
+                    {% if registro %}
+                    <p class="h5 mt-2 fw-semibold" style="color: {{ color_hex }};">{{ registro.interpretacion_ph }}</p>
+                    {% endif %}
                     <p class="h4 mt-3"><strong><i class="fas fa-robot"></i> Recomendación:</strong> {{ recomendacion }}</p>
                     <hr>
                     <div class="row text-center mt-5">
@@ -62,7 +66,7 @@
                             <small class="text-muted text-uppercase fw-bold">Nivel de pH</small>
                         </div>
                         <div class="col-6">
-                            <p class="display-4 mb-0 fw-bold text-primary">💧 {{ registro.conductividad|default:"--" }}%</p>
+                            <p class="display-4 mb-0 fw-bold text-primary">💧 {% if registro %}{{ registro.humedad_lectura }}{% else %}--{% endif %}%</p>
                             <small class="text-muted text-uppercase fw-bold">Humedad Real</small>
                         </div>
                     </div>
