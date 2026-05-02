@@ -8,17 +8,39 @@
         <div class="col-md-6">
             <div class="card p-4 shadow">
                 <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
-                <form method="post">
+                
+                {# BLOQUE PEDAGÓGICO: Muestra errores si el usuario o contraseña son incorrectos #}
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        Your username and password didn't match. Please try again.
+                    </div>
+                {% endif %}
+
+                <form method="post" autocomplete="off">
                     {% csrf_token %}
+                    
+                    {# Renderiza el formulario con estilo Bootstrap profesional #}
                     {{ form|crispy }}
-                    <button type="submit" class="btn btn-primary btn-block mt-3">Ingresar</button>
+                    
+                    {# btn-block asegura que sea fácil de presionar en las tablets de Agromaker #}
+                    <button type="submit" class="btn btn-primary btn-block mt-3">
+                        Ingresar al Sistema
+                    </button>
                 </form>
-                <div class="text-center mt-3">
-                    <small class="text-muted">¿No tienes una cuenta? <a href="{% url 'registro' %}">Regístrate</a></small>
+
+                <div class="text-center mt-4">
+                    <hr>
+                    <small class="text-muted">
+                        ¿No tienes una cuenta? 
+                        <a href="{% url 'usuarios:registro' %}" class="font-weight-bold">Regístrate aquí</a>
+                    </small>
                 </div>
+            </div>
+            
+            <div class="text-center mt-3">
+                <a href="/" class="text-secondary small">← Volver al inicio</a>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-

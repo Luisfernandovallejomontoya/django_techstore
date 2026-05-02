@@ -1,12 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from productos.models import Producto
 
 class Pedido(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     fecha_pedido = models.DateTimeField(auto_now_add=True)
     completado = models.BooleanField(default=False)
-    # Otros campos que necesites, como 'direccion', 'metodo_pago', etc.
 
     def __str__(self):
         return f'Pedido #{self.id}'

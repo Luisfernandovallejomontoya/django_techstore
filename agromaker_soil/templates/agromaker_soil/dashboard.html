@@ -1,87 +1,114 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Agromaker AI - Dashboard de Suelos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .card-ia {
-            border-radius: 15px;
-            transition: transform 0.2s;
-        }
-        .card-ia:hover { transform: scale(1.02); }
-        .display-ceo { font-weight: 800; color: #1a3c34; }
-    </style>
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <div class="text-center mb-5">
-            <h1 class="display-ceo">🛰️ Monitor de Suelos - Filadelfia</h1>
-            <span class="badge bg-dark">ACTIVO SUBSIDIADO - GOBIERNO DE COLOMBIA</span>
-        </div>
-        
-        <div class="row">
-            {% for r in registros %}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm border-0 card-ia border-start border-4" style="border-left-color: {{ r.estado_semaforo.color_hex }} !important; border-left-width: 4px !important;">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold text-primary">{{ r.lote|upper }}</h5>
-                        <p class="text-muted small"><i class="far fa-clock"></i> {{ r.fecha|date:"d/m/Y H:i" }}</p>
-                        <p class="small fw-semibold mb-2" style="color: {{ r.estado_semaforo.color_hex }};">{{ r.interpretacion_ph }}</p>
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">🧪 pH: <strong>{{ r.ph }}</strong></span>
-                            <span class="h5 mb-0">💧 Hum: <strong>{{ r.humedad_lectura }}%</strong></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-12 text-center">
-                <p class="alert alert-warning shadow-sm">
-                    <i class="fas fa-sync fa-spin"></i> Esperando sincronización de sensores (YSA/KOSME)...
-                </p>
-            </div>
-            {% endfor %}
-        </div>
+<style>
+    .card-ia {
+        border-radius: 15px;
+        transition: transform 0.2s;
+    }
+    .card-ia:hover { transform: scale(1.02); }
+    .form-soil { background: #fff; border-radius: 15px; }
+    .btn-soil { background-color: #1a3c34; border: none; }
+    .btn-soil:hover { background-color: #2d5a4c; color: #fff; }
+</style>
 
-        <div class="card shadow-lg mt-5 border-0 card-ia" style="border-left: 15px solid {{ color_hex }};">
-            <div class="card-body p-5">
-                <h2 class="text-muted">Estado de su Cultivo en {{ municipio }}</h2>
-                <div class="py-3">
-                    <h1 class="display-2 fw-bold" style="color: {{ color_hex }};">
-                        {{ alerta }}
-                    </h1>
-                    {% if registro %}
-                    <p class="h5 mt-2 fw-semibold" style="color: {{ color_hex }};">{{ registro.interpretacion_ph }}</p>
-                    {% endif %}
-                    <p class="h4 mt-3"><strong><i class="fas fa-robot"></i> Recomendación:</strong> {{ recomendacion }}</p>
-                    <hr>
-                    <div class="row text-center mt-5">
-                        <div class="col-6 border-end">
-                            <p class="display-4 mb-0 fw-bold">🧪 {{ registro.ph|default:"--" }}</p>
-                            <small class="text-muted text-uppercase fw-bold">Nivel de pH</small>
-                        </div>
-                        <div class="col-6">
-                            <p class="display-4 mb-0 fw-bold text-primary">💧 {% if registro %}{{ registro.humedad_lectura }}{% else %}--{% endif %}%</p>
-                            <small class="text-muted text-uppercase fw-bold">Humedad Real</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <footer class="mt-5 py-5 border-top text-center text-muted">
-            <p class="mb-1 fw-bold">Agromaker Colombia AI - Filadelfia, Caldas</p>
-            <p class="small">
-                Activos en comodato | Respaldo Financiero: <strong>Fondo de Emergencia 305 CEO</strong> (No negociable)<br>
-                Subvencionado por acuerdos de incubación YSA / KOSME / Gobierno de Colombia.
-            </p>
-        </footer>
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1 class="display-6 fw-bold" style="color: #1a3c34;">🛰️ Monitor de Suelos — Filadelfia, Caldas</h1>
+        <span class="badge bg-dark">ACTIVO SUBSIDIADO — GOBIERNO DE COLOMBIA</span>
     </div>
-</body>
-</html>
+
+    <!-- ALERTA DEL ESTADO ACTUAL -->
+    <div class="card shadow-lg border-0 mb-4" style="border-left: 8px solid {{ color_hex }};">
+        <div class="card-body p-4">
+            <h3 class="fw-bold" style="color: {{ color_hex }};">{{ alerta }}</h3>
+            {% if registro %}
+            <p class="mb-1 fw-semibold" style="color: {{ color_hex }};">{{ registro.interpretacion_ph }}</p>
+            {% endif %}
+            <p class="h6 mb-0"><i class="fas fa-robot"></i> Recomendación: {{ recomendacion }}</p>
+            <hr>
+            <div class="row text-center">
+                <div class="col-6 border-end">
+                    <p class="display-5 mb-0 fw-bold">🧪 {{ registro.ph|default:"--" }}</p>
+                    <small class="text-muted fw-bold">pH</small>
+                </div>
+                <div class="col-6">
+                    <p class="display-5 mb-0 fw-bold text-primary">💧 {% if registro %}{{ registro.humedad_lectura }}{% else %}--{% endif %}%</p>
+                    <small class="text-muted fw-bold">Humedad</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORMULARIO DE REGISTRO DE SEMAFORIZACIÓN (INTEGRADO) -->
+    <div class="card shadow-sm form-soil mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">📡 Registrar Nueva Lectura de Suelo</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{% url 'agromaker_soil:registrar_dato' %}" autocomplete="off">
+                {% csrf_token %}
+                <div class="row align-items-end">
+                    <div class="col-md-3 mb-2 mb-md-0">
+                        <label class="form-label fw-bold small">Lote / Ubicación:</label>
+                        <input type="text" name="lote" class="form-control" placeholder="Ej: San Bernardo" value="San Bernardo, Filadelfia" required autocomplete="off">
+                    </div>
+                    <div class="col-md-2 mb-2 mb-md-0">
+                        <label class="form-label fw-bold small">pH (0-14):</label>
+                        <input type="number" step="0.1" name="ph" class="form-control" placeholder="Ej: 5.2" min="0" max="14" required>
+                    </div>
+                    <div class="col-md-2 mb-2 mb-md-0">
+                        <label class="form-label fw-bold small">Humedad (%):</label>
+                        <input type="number" step="0.1" name="humedad" class="form-control" placeholder="Ej: 85" min="0" max="100" required>
+                    </div>
+                    <div class="col-md-2 mb-2 mb-md-0">
+                        <label class="form-label fw-bold small">Conductividad:</label>
+                        <input type="number" step="0.1" name="conductividad" class="form-control" placeholder="Opcional">
+                    </div>
+                    <div class="col-md-2 mb-2 mb-md-0">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-save me-1"></i> GUARDAR
+                        </button>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="{% url 'agromaker_soil:exportar_pdf' %}" class="btn btn-outline-dark w-100" title="Exportar PDF">
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TARJETAS DE REGISTROS HISTÓRICOS -->
+    <div class="row">
+        {% for r in registros %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 card-ia border-start border-4" style="border-left-color: {{ r.estado_semaforo.color_hex }} !important; border-left-width: 4px !important;">
+                <div class="card-body">
+                    <h6 class="card-title fw-bold text-primary">{{ r.lote|upper }}</h6>
+                    <p class="text-muted small mb-1"><i class="far fa-clock"></i> {{ r.fecha|date:"d/m/Y H:i" }}</p>
+                    <p class="small fw-semibold mb-2" style="color: {{ r.estado_semaforo.color_hex }};">{{ r.interpretacion_ph }}</p>
+                    <hr class="my-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="h6 mb-0">🧪 pH: <strong>{{ r.ph }}</strong></span>
+                        <span class="h6 mb-0">💧 Hum: <strong>{{ r.humedad_lectura }}%</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p class="alert alert-warning">
+                <i class="fas fa-sync fa-spin"></i> Esperando sincronización de sensores...
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer class="mt-4 py-3 text-center text-muted small">
+        Agromaker Colombia AI — Filadelfia, Caldas | Fondo 305 CEO | YSA / KOSME
+    </footer>
+</div>
 {% endblock %}

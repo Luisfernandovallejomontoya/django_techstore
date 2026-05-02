@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .services import AgromakerService 
+from django.contrib import messages
+from django.urls import reverse
+from urllib.parse import urlencode
+from .services import AgromakerService
 import datetime
 from datetime import timedelta
 import json
 import pandas as pd
+
+# --- FUNCIONES DE APOYO ---
 
 def calcular_riesgo_ia(lluvia):
     """Función maestra: El único lugar donde se definen los umbrales de riesgo."""
@@ -16,9 +21,49 @@ def calcular_riesgo_ia(lluvia):
     else:
         return "VERDE", "success", "SEGURO", "Niveles de humedad óptimos. Sin riesgos detectados."
 
+# --- VISTAS DEL SISTEMA ---
+
 @login_required
-def procesar_datos_ia(request):
-    return redirect('agromaker_ai:semaforo_ia')
+def guardar_semaforo(request):
+    """Procesa el registro manual de sensores (Activos de Agromaker AI S.A.S)."""
+    if request.method == 'POST':
+        valor = request.POST.get('valor')
+        municipio = request.GET.get('municipio', 'filadelfia')
+
+        if not valor:
+            messages.error(request, "No se recibió ningún valor del sensor.")
+            return redirect('agromaker_ai:estado_campo')
+
+        try:
+            valor_num = float(str(valor).replace(',', '.'))
+        except (ValueError, TypeError):
+            messages.error(request, f"Valor inválido: {valor}. Debe ser numérico.")
+            return redirect('agromaker_ai:estado_campo')
+
+        try:
+            from .models import PrediccionClimatica
+            ahora = datetime.datetime.now()
+            estado, _, _, analisis = calcular_riesgo_ia(valor_num)
+
+            PrediccionClimatica.objects.create(
+                fecha_prediccion=ahora.date(),
+                lluvia_mm=valor_num,
+                saturacion_suelo=valor_num,
+                temperatura=20.0,
+                humedad=valor_num,
+                nivel_riesgo_plaga='Alto' if estado == 'ROJO' else ('Medio' if estado == 'AMARILLO' else 'Bajo'),
+                analisis_inteligente=analisis,
+                semaforo_estado=estado,
+            )
+            messages.success(request, f"Registro de {valor_num} mm guardado para {municipio}.")
+        except Exception as e:
+            messages.error(request, f"Error al guardar: {e}")
+
+        base_url = reverse('agromaker_ai:estado_campo')
+        params = urlencode({'municipio': municipio})
+        return redirect(f'{base_url}?{params}')
+
+    return redirect('agromaker_ai:estado_campo')
 
 @login_required
 def semaforo_ia(request):
@@ -29,10 +74,9 @@ def semaforo_ia(request):
     resultado = AgromakerService.obtener_datos_monitoreo(archivo_busqueda)
     
     try:
-        # Si el servicio falla o el Excel está vacío, el default es 79.4
         lluvia = float(resultado.get("ultimo_acumulado", 79.4))
     except (TypeError, ValueError):
-        lluvia = 100.0
+        lluvia = 79.4
 
     estado, color, riesgo, analisis = calcular_riesgo_ia(lluvia)
 
@@ -63,13 +107,11 @@ def estado_campo(request):
             
     estado, color, riesgo, analisis = calcular_riesgo_ia(lluvia_final)
         
-    # Generación de Historial (7 DÍAS)
     historico_final = []
     fechas_grafico = []
     datos_grafico = []
     
     for i in range(7):
-        # Simulación de decremento histórico basada en el dato actual
         valor_h = round(lluvia_final - (i * 4.2), 1)
         fecha_h = ahora - timedelta(days=i)
         est_h, _, _, _ = calcular_riesgo_ia(valor_h)
@@ -79,13 +121,13 @@ def estado_campo(request):
             'Acumulado_3_dias': valor_h,
             'Estado_Riesgo': est_h
         })
-        # Insertamos al inicio para que el gráfico fluya de izquierda a derecha
         fechas_grafico.insert(0, fecha_h.strftime("%d %b"))
         datos_grafico.insert(0, valor_h)
         
     contexto = {
         'municipio': "Pereira" if "pereira" in m_url else "Filadelfia",
         'ultimo_acumulado': lluvia_final,
+        'max_acumulado': resultado_servicio.get("max_acumulado", lluvia_final),
         'historial_con_riesgo': historico_final,
         'fechas_json': json.dumps(fechas_grafico),
         'datos_json': json.dumps(datos_grafico),
@@ -137,3 +179,7 @@ def exportar_excel(request):
 @login_required
 def mapa_completo(request):
     return render(request, 'agromaker_ai/mapa_full.html')
+
+@login_required
+def procesar_datos_ia(request):
+    return redirect('agromaker_ai:semaforo_ia')

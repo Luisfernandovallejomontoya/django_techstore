@@ -135,8 +135,9 @@
         <a href="/productos/catalogo/">Catálogo</a>
         <a href="/productos/galeria/">Galería</a>
         <a href="/admin/productos/producto/add/">Agregar Producto</a>
-        <a href="{% url 'registro' %}">Registro</a>
-        <a href="{% url 'login_view' %}">Login</a>
+        <!-- Enlaces actualizados con el namespace 'usuarios:' -->
+        <a href="{% url 'usuarios:registro' %}">Registro</a>
+        <a href="{% url 'usuarios:login' %}">Login</a>
     </nav>
 
     {% if clima_widget %}
@@ -187,7 +188,7 @@
                 <p class="card-text">💲 <strong>Precio:</strong> ${{ producto.precio }}</p>
                 <p class="card-text">📦 <strong>Stock:</strong> {{ producto.stock }}</p>
 
-                <form action="{% url 'agregar_producto' producto.id %}" method="post" style="margin-top: 15px;">
+                <form action="{% url 'productos:agregar_producto' producto.id %}" method="post" style="margin-top: 15px;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-primary btn-block" style="width: 100%; padding: 10px; border: none; border-radius: 5px; background-color: #007BFF; color: white; cursor: pointer;">
                         Añadir al carrito

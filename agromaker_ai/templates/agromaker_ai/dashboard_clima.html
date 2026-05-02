@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agromaker IA - Dashboard {{ municipio }}</title>
     
+    <!-- Frameworks y Librerías -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -21,6 +22,7 @@
             color: var(--agromaker-dark);
             min-height: 100vh;
         }
+        /* Botones de Navegación */
         .nav-agromaker .btn {
             border-radius: 50px;
             transition: all 0.3s ease;
@@ -31,6 +33,7 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
         }
+        /* Estilo de Tarjetas Glassmorphism */
         .card { 
             border-radius: 20px; 
             border: 1px solid rgba(0,0,0,0.05); 
@@ -42,9 +45,12 @@
         .stat-card { border-left: 6px solid; }
         .table-responsive { max-height: 420px; overflow-y: auto; }
         .alert-banner { border-radius: 24px; border: none; }
+        
+        /* Degradados de Estado */
         .bg-gradient-safe { background-image: linear-gradient(to right, #198754, #2ecc71); }
         .bg-gradient-warning { background-image: linear-gradient(to right, #f39c12, #f1c40f); }
         .bg-gradient-danger { background-image: linear-gradient(to right, #e74c3c, #c0392b); }
+        
         .fade-in { animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -53,6 +59,7 @@
 
     <div class="container py-4">
         
+        <!-- HEADER: Identidad Corporativa -->
         <header class="row mb-4 align-items-center">
             <div class="col-md-6">
                 <div class="d-flex align-items-center gap-3">
@@ -82,7 +89,8 @@
             </div>
         </header>
 
-        <div class="card mb-5 alert-banner shadow-lg 
+        <!-- BANNER DE ESTADO IA -->
+        <div class="card mb-4 alert-banner shadow-lg 
             {% if ultimo_acumulado >= 80 %} bg-gradient-danger text-white 
             {% elif ultimo_acumulado >= 50 %} bg-gradient-warning text-dark 
             {% else %} bg-gradient-safe text-white {% endif %}">
@@ -100,6 +108,36 @@
             </div>
         </div>
 
+        <!-- MÓDULO DE REGISTRO (Captura de datos de Activos de la Empresa) -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 bg-white p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <h5 class="fw-bold mb-1 text-success">
+                                <i class="bi bi-plus-circle-fill me-2"></i> Captura de Datos IoT
+                            </h5>
+                            <p class="text-muted small mb-md-0">Registro manual para sensores propiedad de Agromaker Colombia (AI) S.A.S.</p>
+                        </div>
+                        <div class="col-md-5">
+                            <form method="POST" action="{% url 'agromaker_ai:guardar_semaforo' %}?municipio={{ municipio }}" class="d-flex gap-2">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-moisture"></i></span>
+                                    <input type="number" step="0.1" name="valor" class="form-control border-start-0" 
+                                           placeholder="Valor mm / pH" min="0" max="500" required>
+                                    <button type="submit" class="btn btn-success px-4 fw-bold">
+                                        <i class="bi bi-save me-1"></i> GUARDAR
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TARJETAS DE INDICADORES -->
         <div class="row g-4 mb-5">
             <div class="col-md-4">
                 <div class="card p-4 stat-card border-success h-100 shadow-sm">
@@ -137,6 +175,7 @@
             </div>
         </div>
 
+        <!-- GRÁFICO Y TABLA DE AUDITORÍA -->
         <div class="row g-4">
             <div class="col-lg-7">
                 <div class="card shadow-sm p-4 h-100">
@@ -189,6 +228,7 @@
         </div>
     </div>
 
+    <!-- LÓGICA DE VISUALIZACIÓN (Chart.js) -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('graficoClima').getContext('2d');

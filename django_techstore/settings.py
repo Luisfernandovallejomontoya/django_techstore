@@ -1,13 +1,14 @@
 import os
 from pathlib import Path
 import dj_database_url
+from django.urls import reverse_lazy
 
 # BASE_DIR es: C:\Users\Administrador\Desktop\TechStoreOneline\django_techstore
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-@e^a4@y6e!19!7d8*a^h=0^0^9e99t#1w_#^9c%_b^9a^l9t-m'
 DEBUG = True
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -93,5 +94,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CART_SESSION_ID = 'carrito'
-LOGOUT_REDIRECT_URL = 'catalogo'
-LOGIN_REDIRECT_URL = 'catalogo'
+LOGIN_URL = '/usuarios/login/'
+LOGIN_REDIRECT_URL = reverse_lazy('productos:catalogo')
+LOGOUT_REDIRECT_URL = reverse_lazy('productos:catalogo')
+AUTH_USER_MODEL = 'usuarios.CustomUser'
+
+# --- Configuración CSRF (Desarrollo Local) ---
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = 'Lax'

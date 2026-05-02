@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from productos.models import Producto
 
 class CampanaPublicitaria(models.Model):
@@ -10,7 +10,7 @@ class CampanaPublicitaria(models.Model):
     )
 
     nombre = models.CharField(max_length=200)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     tipo = models.CharField(max_length=10, choices=TIPOS_DE_CAMPANA, default='basica')
     fecha_inicio = models.DateField(auto_now_add=True)
     fecha_fin = models.DateField(null=True, blank=True)
