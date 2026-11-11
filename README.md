@@ -113,5 +113,9 @@ docker run --rm -p 8000:8000 \
 ## Estado
 Proyecto en evolución (e-commerce + módulos Agromaker). Se recomienda ejecutar `python manage.py check` y pruebas del proyecto en un entorno limpio tras instalar dependencias.
 
+## Contribución y seguridad
+- Guía de contribución: [`CONTRIBUTING.md`](CONTRIBUTING.md)
+- Política de seguridad: [`SECURITY.md`](SECURITY.md)
+
 ## Licencia
 Este proyecto se distribuye bajo la licencia **MIT**. Consulta el archivo [`LICENSE`](LICENSE) para más detalles.

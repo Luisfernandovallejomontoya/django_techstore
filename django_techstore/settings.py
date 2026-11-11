@@ -104,8 +104,15 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CART_SESSION_ID = "carrito"
-LOGOUT_REDIRECT_URL = "catalogo"
+LOGIN_URL = "login_view"
 LOGIN_REDIRECT_URL = "catalogo"
+LOGOUT_REDIRECT_URL = "catalogo"
+
+# Soporte para despliegues detrás de proxy / balanceador
+if env_bool("USE_X_FORWARDED_HOST", False):
+    USE_X_FORWARDED_HOST = True
+if env_bool("SECURE_PROXY_SSL_HEADER_ENABLED", False):
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # --- Seguridad y buenas prácticas (producción) ---
 if not DEBUG:
