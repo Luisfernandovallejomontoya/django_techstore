@@ -22,6 +22,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Collect static files
+        env:
+          SECRET_KEY: ci-insecure-secret-key
+          DEBUG: "False"
+          ALLOWED_HOSTS: localhost,127.0.0.1
+        run: |
+          python manage.py collectstatic --noinput
+
       - name: Django system checks
         env:
           SECRET_KEY: ci-insecure-secret-key
@@ -29,3 +37,12 @@ jobs:
           ALLOWED_HOSTS: localhost,127.0.0.1
         run: |
           python manage.py check
+
+      - name: Run tests
+        env:
+          SECRET_KEY: ci-insecure-secret-key
+          DEBUG: "False"
+          ALLOWED_HOSTS: localhost,127.0.0.1
+        run: |
+          python manage.py test
+
