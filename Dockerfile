@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
@@ -16,4 +16,6 @@ COPY . /app/
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Para producción define SECRET_KEY, DEBUG=False, ALLOWED_HOSTS y (opcional) DATABASE_URL.
+# Ejemplo: ejecutar collectstatic antes de arrancar si sirves estáticos desde este contenedor.
+CMD ["gunicorn", "django_techstore.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
